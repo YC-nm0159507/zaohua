@@ -1,0 +1,2626 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F6F3EC">
+<title>造化仙府 · 攻略资料库</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232E6353'/%3E%3Ctext x='16' y='23' font-size='19' text-anchor='middle' fill='%23F6F3EC' font-family='serif'%3E造%3C/text%3E%3C/svg%3E">
+<style>
+/* ============ 设计变量：水墨宣纸风 ============ */
+:root{
+  --bg:#F6F3EC;        /* 宣纸米色 */
+  --card:#FFFDF8;      /* 卡片 */
+  --ink:#1D2A26;       /* 正文墨字 */
+  --green:#2E6353;     /* 主色墨绿 */
+  --green-deep:#254A40;
+  --gold:#B08544;      /* 强调金棕 */
+  --sub:#6E7B75;       /* 次级文字 */
+  --line:#E2DACA;      /* 分隔线 */
+  --beige:#F4EBDA;     /* 引用块米色 */
+  --serif:"Songti SC","STSong","SimSun","Noto Serif CJK SC","Source Han Serif SC",serif;
+  --sans:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg);color:var(--ink);font-family:var(--sans);
+  font-size:15px;line-height:1.75;overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+}
+img{max-width:100%}
+a{color:inherit;text-decoration:none}
+
+/* 窄栏居中：桌面打开也是手机宽度 */
+#app{max-width:520px;margin:0 auto;padding:0 18px;min-height:100vh}
+
+/* ============ 通用 ============ */
+.sec-h{font-family:var(--serif);font-size:16px;font-weight:700;letter-spacing:1px;margin:26px 0 10px;display:flex;align-items:center;gap:8px}
+.sec-h::after{content:"";flex:1;height:1px;background:var(--line)}
+.muted{color:var(--sub)}
+.empty{text-align:center;color:#B4AE9F;font-size:13px;padding:54px 0;letter-spacing:1px}
+.center{text-align:center}
+
+/* ============ 首页头部 ============ */
+.hd{padding:30px 0 2px;position:relative}
+.hd-fav{position:absolute;top:34px;right:0;display:inline-flex;align-items:center;gap:4px;font-size:12px;color:var(--sub);background:var(--card);border:1px solid var(--line);border-radius:16px;padding:5px 11px;cursor:pointer;transition:.16s}
+.hd-fav:active{background:#FBF8F0}
+.hd-fav-ico{color:var(--gold);font-size:12px}
+.hd-fav-n{color:#fff;background:var(--gold);border-radius:9px;min-width:17px;height:17px;line-height:17px;text-align:center;font-size:10.5px;padding:0 4px}
+.sec-n{font-family:var(--sans);font-size:11.5px;font-weight:400;color:#A8A296;letter-spacing:0}
+.loadmore{text-align:center;padding:20px 0 8px;font-size:12.5px;color:var(--sub);cursor:pointer;letter-spacing:1px}
+.loadmore[data-act]:active{color:var(--green)}
+.loadmore::after{content:"";display:block;width:34px;height:1px;background:var(--line);margin:12px auto 0}
+
+/* 收藏页 */
+.fav-item{position:relative}
+.fav-item .item{padding-right:34px}
+.fav-del{position:absolute;right:0;top:14px;width:26px;height:26px;line-height:24px;text-align:center;
+  border:1px solid var(--line);background:var(--card);color:#B4AE9F;border-radius:50%;
+  font-size:12px;cursor:pointer;padding:0;font-family:inherit}
+.fav-del:active{background:#F6EADA;color:#A0552A;border-color:#E6D6B8}
+.hd-kicker{font-size:11px;letter-spacing:.62em;color:var(--gold);text-indent:.62em}
+.hd-title{font-family:var(--serif);font-size:31px;font-weight:700;letter-spacing:3px;line-height:1.35;margin:8px 0 0}
+.hd-desc{font-size:13px;color:var(--sub);margin-top:8px;line-height:1.7}
+
+/* ============ 搜索 ============ */
+.search{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:0 12px;height:46px;margin-top:18px}
+.search-ico{color:#A8A296;font-size:15px;flex:0 0 auto}
+.search input{flex:1;min-width:0;border:0;outline:none;background:transparent;font-family:inherit;font-size:14px;color:var(--ink)}
+.search input::placeholder{color:#B4AE9F}
+.search-clear{color:#B4AE9F;font-size:14px;padding:0 2px;cursor:pointer;flex:0 0 auto}
+
+/* ============ 分类胶囊（横向滑动） ============ */
+/* 分类胶囊：换行排列（分类多于一屏时不用左右滑） */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 2px;padding:0}
+.chip{flex:0 0 auto;padding:6px 14px;border-radius:16px;border:1px solid var(--line);background:var(--card);color:var(--sub);font-size:13px;white-space:nowrap;cursor:pointer;transition:.16s}
+.chip.on{background:var(--green);border-color:var(--green);color:#fff;box-shadow:0 2px 8px rgba(46,99,83,.18)}
+
+/* ============ 置顶区 ============ */
+.pin-hero{position:relative;border-radius:14px;overflow:hidden;background:linear-gradient(150deg,#3A6E5E,var(--green-deep) 62%,#1D332C);min-height:186px;display:flex;flex-direction:column;justify-content:flex-end;padding:20px 18px;color:#fff;cursor:pointer;isolation:isolate}
+.pin-hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 35%;z-index:0}
+.pin-hero-mask{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(46,99,83,.52) 0%,rgba(29,51,44,.9) 100%)}
+.pin-hero-body{position:relative;z-index:2}
+.pin-hero-tag{display:inline-block;font-size:10.5px;letter-spacing:2px;padding:2px 8px;border-radius:5px;background:rgba(214,183,120,.22);color:#EBD8AC;border:1px solid rgba(214,183,120,.35)}
+.pin-hero-t{font-family:var(--serif);font-size:21px;font-weight:700;line-height:1.5;margin-top:10px;letter-spacing:.5px}
+.pin-hero-d{font-size:12.5px;color:rgba(255,255,255,.72);margin-top:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.65}
+.pin-hero-m{font-size:11.5px;color:rgba(255,255,255,.56);margin-top:12px;letter-spacing:.5px}
+
+.pin-row{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px 14px;margin-top:10px;cursor:pointer;transition:.16s}
+.pin-row:active{background:#FBF8F0}
+.pin-no{font-family:var(--serif);font-size:19px;font-weight:700;color:var(--gold);width:20px;flex:0 0 auto;text-align:center}
+.pin-row-main{flex:1;min-width:0}
+.pin-row-t{font-size:14.5px;font-weight:600;line-height:1.5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pin-row-m{font-size:11.5px;color:var(--sub);margin-top:5px;display:flex;gap:8px;align-items:center}
+.pin-arrow{color:#C9C2B2;font-size:16px;flex:0 0 auto}
+
+/* ============ 列表 ============ */
+.item{display:flex;gap:12px;align-items:flex-start;padding:15px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.item:last-child{border-bottom:0}
+.item-body{flex:1;min-width:0}
+.item-t{font-size:15px;font-weight:600;line-height:1.5;color:var(--ink);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.item-d{font-size:12.5px;color:var(--sub);line-height:1.65;margin-top:5px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.item-m{display:flex;align-items:center;gap:8px;margin-top:9px;font-size:11.5px;color:#A8A296;flex-wrap:wrap}
+.tag{font-size:11px;color:var(--green);background:#E8EFEA;border-radius:6px;padding:1px 7px;flex:0 0 auto}
+.tag.gold{color:#8C6730;background:var(--beige)}
+.thumb{width:64px;height:64px;border-radius:10px;flex:0 0 auto;overflow:hidden;background:linear-gradient(150deg,#3A6E5E,var(--green-deep));display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.82);font-family:var(--serif);font-size:23px}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* ============ 底部入口区 ============ */
+.entry{margin:30px 0 44px;padding:18px 16px;border:1px solid var(--line);border-radius:14px;background:var(--card);text-align:center}
+.entry-t{font-family:var(--serif);font-size:14px;letter-spacing:1px;color:#45564F}
+.entry-s{font-size:11.5px;color:#A8A296;margin-top:5px}
+.entry-btns{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+/* 未登录时的纯说明块：不要卡片边框，避免看起来像"入口区" */
+.entry-plain{border:0;background:transparent;padding:30px 0 12px;margin-bottom:34px}
+
+/* ============ 按钮 ============ */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:5px;border:1px solid var(--line);background:var(--card);color:#5C6A64;font-family:inherit;font-size:13.5px;padding:9px 18px;border-radius:20px;cursor:pointer;transition:.16s;line-height:1.4}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:var(--green);border-color:var(--green);color:#fff;font-weight:600}
+.btn-gold{background:var(--gold);border-color:var(--gold);color:#fff}
+.btn-block{display:flex;width:100%}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+
+/* ============ 详情页 ============ */
+.backbar{display:flex;align-items:center;gap:5px;padding:18px 0 6px;color:var(--sub);font-size:13.5px;cursor:pointer;width:fit-content}
+.backbar .arw{font-size:17px;line-height:1}
+.d-wrap{padding-bottom:104px}
+.d-cover{height:190px;border-radius:12px;overflow:hidden;background:linear-gradient(150deg,#3A6E5E,var(--green-deep) 62%,#1D332C);position:relative;margin-top:4px}
+/* 封面固定 190px 高；用 cover 裁切，并把焦点偏上，
+   这样竖图（人物截图）不会把头部裁掉，正文里的长图也能显示上半部分 */
+.d-cover img{width:100%;height:100%;object-fit:cover;object-position:center 30%;display:block}
+.d-cover-ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.d-big{font-family:var(--serif);font-size:54px;font-weight:700;color:rgba(255,255,255,.14);letter-spacing:8px;line-height:1}
+.d-small{margin-top:10px;font-size:11px;color:rgba(214,183,120,.6);letter-spacing:5px}
+.d-title{font-family:var(--serif);font-size:25px;font-weight:700;line-height:1.45;margin:20px 0 0;letter-spacing:.5px}
+.d-meta{display:flex;align-items:center;gap:8px;color:#A8A296;font-size:12px;margin-top:11px;flex-wrap:wrap}
+.d-meta .who{color:var(--sub)}
+.d-body{margin-top:22px}
+.d-end{margin:38px 0 6px;text-align:center;font-size:11px;color:#B4AE9F;letter-spacing:1.5px}
+/* 站方操作区：只有 owner 登录后才渲染 */
+.owner-tools{margin-top:26px;padding-top:16px;border-top:1px solid var(--line);text-align:right}
+.btn-del{font-size:12.5px;color:#A0552A;border-color:#E6D6B8;background:#FBF6EC;padding:7px 15px;border-radius:16px}
+.btn-del:active{background:#F6EADA}
+
+/* 访问统计 */
+.stat-grid{display:flex;gap:9px;margin:6px 0 4px}
+.stat-card{flex:1;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 8px;text-align:center}
+.stat-n{font-family:var(--serif);font-size:23px;font-weight:700;color:var(--green);line-height:1.2}
+.stat-l{font-size:11px;color:var(--sub);margin-top:5px;letter-spacing:.5px}
+.top-row{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--line)}
+.top-row:last-child{border-bottom:0}
+.top-i{width:20px;text-align:center;font-family:var(--serif);color:var(--gold);font-size:14px;flex:0 0 auto}
+.top-t{flex:1;min-width:0;font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top-c{font-size:12px;color:var(--sub);flex:0 0 auto}
+
+/* 正文排版 */
+.md-p{font-size:15px;line-height:1.92;color:#33423C;margin:0 0 15px;word-break:break-word}
+.md-h{font-family:var(--serif);font-size:18px;font-weight:700;line-height:1.5;color:var(--ink);margin:27px 0 13px;padding-left:11px;border-left:3px solid var(--gold)}
+.md-ul,.md-ol{margin:0 0 15px;padding:0}
+.md-ul{list-style:none}
+.md-ul li{position:relative;padding-left:17px;font-size:15px;line-height:1.9;color:#33423C;margin-bottom:5px;word-break:break-word}
+.md-ul li::before{content:"";position:absolute;left:3px;top:.82em;width:5px;height:5px;background:var(--green);border-radius:1.5px}
+.md-ol{list-style:decimal;padding-left:21px}
+.md-ol li{font-size:15px;line-height:1.9;color:#33423C;margin-bottom:5px}
+.md-ol li::marker{color:var(--gold);font-weight:600}
+.md-q{margin:0 0 15px;background:var(--beige);color:#6B552C;font-size:13.5px;line-height:1.85;padding:13px 15px;border-radius:10px;border-left:3px solid var(--gold)}
+.md-q p{margin:0}
+.md-fig{margin:17px 0}
+.md-img{width:100%;border-radius:10px;display:block;background:#EFEADF;cursor:zoom-in}
+.md-cap{font-size:11.5px;color:var(--sub);margin-top:7px;text-align:center;letter-spacing:.5px}
+
+/* 点图全屏查看 */
+.d-cover img{cursor:zoom-in}
+.lightbox{position:fixed;inset:0;z-index:9998;background:rgba(18,26,23,.94);
+  display:none;align-items:center;justify-content:center;padding:16px;cursor:zoom-out}
+.lightbox.on{display:flex}
+.lightbox img{max-width:100%;max-height:100%;object-fit:contain;border-radius:6px}
+.lb-hint{position:absolute;bottom:calc(20px + env(safe-area-inset-bottom));left:0;right:0;
+  text-align:center;font-size:12px;color:rgba(255,255,255,.55);letter-spacing:1px}
+
+/* 详情页固定操作栏 */
+.d-actbar{position:fixed;left:50%;transform:translateX(-50%);bottom:0;width:100%;max-width:520px;display:flex;gap:9px;padding:10px 18px calc(10px + env(safe-area-inset-bottom));background:rgba(255,253,248,.97);backdrop-filter:blur(8px);border-top:1px solid var(--line);z-index:50}
+.d-actbar .btn{flex:1;padding:11px 0;border-radius:22px}
+
+/* ============ 表单 ============ */
+.form-hd{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:11px 14px;margin-top:6px}
+.form-hd-id{display:flex;align-items:center;gap:9px;min-width:0}
+.avatar{width:34px;height:34px;border-radius:50%;background:#E8EFEA;color:var(--green);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:15px;flex:0 0 auto}
+.form-hd-n{font-size:13.5px;font-weight:600;line-height:1.3}
+.form-hd-r{font-size:11px;color:var(--sub);margin-top:2px}
+.field{margin-bottom:16px}
+.label{display:flex;justify-content:space-between;align-items:baseline;font-size:12.5px;color:var(--sub);margin-bottom:7px;letter-spacing:.3px}
+.label .cnt{font-size:11px;color:#B4AE9F}
+.input,.select,.textarea{width:100%;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:11px 13px;font-size:14px;font-family:inherit;color:var(--ink);outline:none;transition:.16s;-webkit-appearance:none;appearance:none}
+.input:focus,.select:focus,.textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(46,99,83,.07)}
+.input::placeholder,.textarea::placeholder{color:#B4AE9F}
+.select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%236E7B75' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center;padding-right:34px}
+.textarea{min-height:250px;line-height:1.85;resize:vertical}
+.row{display:flex;gap:9px;align-items:center}
+.row .input{flex:1;min-width:0}
+.hint{font-size:11.5px;color:#A8A296;margin-top:7px;line-height:1.6}
+.hint code{background:#EFE9DC;border-radius:4px;padding:1px 5px;font-size:11px;color:#6B552C;font-family:ui-monospace,Menlo,Consolas,monospace}
+
+/* 草稿提示条 */
+.draft-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px;
+  font-size:11.5px;color:#A8A296;letter-spacing:.3px}
+.draft-clear{color:var(--gold);cursor:pointer;border-bottom:1px dashed #DCC9A5;padding-bottom:1px;flex:0 0 auto}
+.draft-clear:active{color:#8C6730}
+.code-box{background:#F4EBDA;border:1px dashed #DCC9A5;border-radius:10px;padding:12px 14px;font-size:12.5px;line-height:1.9;color:#6B552C;margin-bottom:16px}
+
+/* 开关 */
+.switch-row{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:11px 13px;margin-bottom:16px}
+.switch-t{font-size:13.5px;color:var(--ink)}
+.switch-d{font-size:11.5px;color:#A8A296;margin-top:3px}
+.switch{position:relative;display:inline-block;width:44px;height:25px;flex:0 0 auto}
+.switch input{opacity:0;width:0;height:0;position:absolute}
+.switch span{position:absolute;inset:0;background:#DCD5C6;border-radius:13px;transition:.2s;cursor:pointer}
+.switch span::before{content:"";position:absolute;width:19px;height:19px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.16)}
+.switch input:checked + span{background:var(--green)}
+.switch input:checked + span::before{transform:translateX(19px)}
+
+/* ============ 登录页 ============ */
+.login-card{margin-top:56px;text-align:center}
+.login-seal{width:58px;height:58px;border-radius:14px;background:var(--green);color:#F6F3EC;font-family:var(--serif);font-size:27px;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;letter-spacing:0}
+.login-t{font-family:var(--serif);font-size:21px;font-weight:700;letter-spacing:2px}
+.login-s{font-size:12.5px;color:var(--sub);margin-top:8px;line-height:1.7}
+.login-form{margin-top:26px;text-align:left}
+.login-form .btn-block{margin-top:14px;border-radius:10px;padding:12px 0;font-size:14.5px}
+.login-back{display:inline-block;margin-top:20px;font-size:12.5px;color:var(--sub);cursor:pointer;border-bottom:1px solid var(--line);padding-bottom:2px}
+
+/* ============ 成员管理 ============ */
+.m-card{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px 14px;margin-bottom:10px;transition:.18s}
+.m-card.off{opacity:.52;filter:grayscale(1)}
+.m-ava{width:38px;height:38px;border-radius:50%;background:#E8EFEA;color:var(--green);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:16px;flex:0 0 auto}
+.m-main{flex:1;min-width:0}
+.m-top{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.m-name{font-size:14px;font-weight:600}
+.m-code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11.5px;color:var(--sub);margin-top:5px;letter-spacing:.6px}
+.badge{font-size:10px;padding:1.5px 7px;border-radius:5px;letter-spacing:.5px;flex:0 0 auto}
+.badge.owner{background:var(--beige);color:#8C6730}
+.badge.editor{background:#E8EFEA;color:var(--green)}
+.badge.self{background:#EDE7DA;color:#8A8271}
+.m-act{flex:0 0 auto}
+
+/* ============ 提示条 ============ */
+#toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%) translateY(10px);background:rgba(29,42,38,.93);color:#fff;font-size:13px;padding:9px 17px;border-radius:20px;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:999;max-width:78vw;text-align:center;line-height:1.5}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+.skeleton{height:74px;border-radius:12px;background:linear-gradient(90deg,#F1ECDF 25%,#F7F3E9 37%,#F1ECDF 63%);background-size:400% 100%;animation:sk 1.3s ease infinite;margin-bottom:10px}
+@keyframes sk{0%{background-position:100% 50%}100%{background-position:0 50%}}
+</style>
+</head>
+<body>
+
+<div id="app"></div>
+<div id="toast"></div>
+<noscript><p style="padding:40px;text-align:center">这个站点需要开启 JavaScript。</p></noscript>
+
+<script>
+"use strict";
+
+/* =========================================================================
+   造化仙府 · 攻略资料库（单文件 H5 站点）
+   - 原生 JS，无框架、无构建、无外部依赖
+   - hash 路由：#/  #/g/{id}  #/publish  #/login  #/members
+   - CONFIG.API 留空时进入「离线模式」，读站内文章数组 + localStorage
+   ========================================================================= */
+
+/* ---------------------------------------------------------------
+   1. 配置
+   —— 三种模式，按你填的东西自动切换：
+      ① 什么都不填        → 离线模式：读站内 GUIDES_DATA，发布只存本机
+      ② 填 API            → 用自己的服务端（server.js 那套接口）
+      ③ 填 SUPABASE       → 接 Supabase，发布后所有访客立即可见（推荐）
+   --------------------------------------------------------------- */
+var CONFIG = {
+  // ② 自建服务端地址。例：'http://localhost:8080/api'
+  API: '',
+
+  // ③ Supabase：到 supabase.com 建项目后，在 Settings → API Keys 里复制。
+  //    anonKey 里填「Publishable key」（sb_publishable_ 开头）或旧版「anon」（eyJ 开头）都行。
+  //    Secret key / service_role 是管理员凭证，绝对不能填这里。
+  SUPABASE: {
+    url: 'https://uflpfltvmvkngfodbzzx.supabase.co',
+    anonKey: 'sb_publishable_c7q9yANmHjj8v4n9em5khg_2Lfyrlyp',
+    bucket: 'zaohua' // 图片存储桶的名字，按 SQL 里建的来，默认 zaohua
+  }
+};
+
+/* 当前跑的是哪种模式 */
+function bootMode() {
+  if (CONFIG.SUPABASE && CONFIG.SUPABASE.url && CONFIG.SUPABASE.anonKey) return 'supabase';
+  if (CONFIG.API) return 'api';
+  return 'offline';
+}
+
+/* localStorage 键名 */
+var LS = {
+  auth:    'zaohua_auth',          // 登录态 {token,name,role,id}
+  favs:    'zaohua_favs',          // 收藏的文章 id 数组
+  guides:  'zaohua_local_guides',  // 仅离线演示：本地发布的文章
+  members: 'zaohua_local_members', // 仅离线演示：本地成员表
+  draft:   'zaohua_draft'          // 发布页草稿（自动保存，只在本机）
+};
+
+/* 分类：与后台/旧站保持一致 */
+/* 分类：与数据库里的 category 字段一一对应（改这里要同时改数据库里的文章） */
+var CATEGORIES = ['新出活动', '氪金推荐', '赛季玩法', '数据图表', '玩家日常'];
+
+var app = document.getElementById('app');
+var toastEl = document.getElementById('toast');
+var state = {
+  keyword: '',
+  cat: '全部',
+  guides: [],        // 当前已加载到首页的文章（分页累积）
+  pinned: [],        // 置顶三篇
+  total: 0,          // 当前筛选条件下的总数
+  hasMore: false,    // 还有没有下一页
+  loading: false,
+  currentGuide: null,
+  favs: readJSON(LS.favs, [])
+};
+
+/* ---------------------------------------------------------------
+   2. 小工具
+   --------------------------------------------------------------- */
+function readJSON(key, fallback) {
+  try {
+    var raw = localStorage.getItem(key);
+    return raw ? JSON.parse(raw) : fallback;
+  } catch (e) { return fallback; }
+}
+function writeJSON(key, val) {
+  try {
+    localStorage.setItem(key, JSON.stringify(val));
+    return true;
+  } catch (e) {
+    // 多半是 5MB 配额用尽（离线演示把图片存成了 dataURL）
+    toast('本地存储已满，请连接后端或清理旧数据');
+    return false;
+  }
+}
+function esc(s) {
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+function escAttr(s) { return esc(s); }
+
+function toast(msg) {
+  toastEl.textContent = msg;
+  toastEl.classList.add('show');
+  clearTimeout(toast._t);
+  toast._t = setTimeout(function () { toastEl.classList.remove('show'); }, 2200);
+}
+
+function go(path) {
+  if (location.hash === '#' + path) route();
+  else location.hash = path;
+}
+
+/* 时间戳 → 2026-11-14 */
+function fmtDate(ms) {
+  var d = new Date(Number(ms) || Date.now());
+  var p = function (n) { return n < 10 ? '0' + n : '' + n; };
+  return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate());
+}
+function fmtDateFull(ms) {
+  var d = new Date(Number(ms) || Date.now());
+  var p = function (n) { return n < 10 ? '0' + n : '' + n; };
+  return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate()) +
+    ' ' + p(d.getHours()) + ':' + p(d.getMinutes());
+}
+/* 分类首字，用作无封面时的色块字 */
+function catShort(cat) { return String(cat || '攻').slice(0, 1); }
+/* 正文首字，用作缩略图占位 */
+function titleShort(title) { return String(title || '攻').replace(/\s/g, '').slice(0, 1); }
+function roleName(role) { return role === 'owner' ? '主管理员' : (role === 'editor' ? '编辑' : '访客'); }
+
+/* ---------------------------------------------------------------
+   3. 正文渲染器：按行扫描，不依赖任何 Markdown 库
+      支持：## 小标题 / - 列表 / 1. 有序列表 / > 引用
+            ![](地址) 图片 / ![图注](地址) 带图注图片 / 空行分段
+   --------------------------------------------------------------- */
+function renderContent(text) {
+  var lines = String(text == null ? '' : text).replace(/\r\n?/g, '\n').split('\n');
+  var html = '';
+  var buf = [];          // 当前列表缓冲
+  var bufType = '';      // 'ul' | 'ol'
+
+  function flush() {
+    if (!buf.length) return;
+    if (bufType === 'ol') {
+      html += '<ol class="md-ol">' + buf.map(function (t) {
+        return '<li>' + inner(t) + '</li>';
+      }).join('') + '</ol>';
+    } else {
+      html += '<ul class="md-ul">' + buf.map(function (t) {
+        return '<li>' + inner(t) + '</li>';
+      }).join('') + '</ul>';
+    }
+    buf = []; bufType = '';
+  }
+
+  for (var i = 0; i < lines.length; i++) {
+    var t = lines[i].trim();
+
+    // 空行 → 结束上一段/列表
+    if (!t) { flush(); continue; }
+
+    // 图片：![](地址) / ![图注](地址) / ![图注](小图地址 "大图地址")
+    // 第三种写法：列表里只加载小图，点开才去下载大图（省流量又清晰）
+    // 地址用贪婪匹配再 trim：data URI 里可能含括号（如 SVG 的 url(#g)），
+    // 用 [^)]+ 会提前截断，把整条地址当成正文吐出来
+    var m = t.match(/^!\[([^\]]*)\]\((.*)\)$/);
+    if (m) {
+      flush();
+      var cap = m[1].trim();
+      var raw = m[2].trim();
+      var src = raw;
+      var full = '';
+      // 末尾形如  "大图地址"  的引号部分视作大图
+      var tm = raw.match(/^(.*?)\s*"([^"]+)"\s*$/);
+      if (tm) { src = tm[1].trim(); full = tm[2].trim(); }
+      html += '<figure class="md-fig">' +
+                '<img class="md-img" data-act="zoom" src="' + escAttr(src) + '"' +
+                  (full && full !== src ? ' data-full="' + escAttr(full) + '"' : '') +
+                  ' alt="' + escAttr(cap) + '" loading="lazy" decoding="async" />' +
+                (cap ? '<figcaption class="md-cap">' + esc(cap) + '</figcaption>' : '') +
+              '</figure>';
+      continue;
+    }
+
+    // 小标题：## / ### / # 都按二级标题渲染
+    if (/^#{1,6}\s+/.test(t)) {
+      flush();
+      html += '<h3 class="md-h">' + inner(t.replace(/^#{1,6}\s+/, '')) + '</h3>';
+      continue;
+    }
+
+    // 无序列表
+    if (/^[-*+]\s+/.test(t)) {
+      if (bufType && bufType !== 'ul') flush();
+      bufType = 'ul';
+      buf.push(t.replace(/^[-*+]\s+/, ''));
+      continue;
+    }
+
+    // 有序列表：1. 2. …
+    var om = t.match(/^\d+\.\s+(.*)$/);
+    if (om) {
+      if (bufType && bufType !== 'ol') flush();
+      bufType = 'ol';
+      buf.push(om[1]);
+      continue;
+    }
+
+    // 引用块
+    if (t.charAt(0) === '>') {
+      flush();
+      html += '<blockquote class="md-q"><p>' + inner(t.replace(/^>\s?/, '')) + '</p></blockquote>';
+      continue;
+    }
+
+    // 普通段落
+    flush();
+    html += '<p class="md-p">' + inner(t) + '</p>';
+  }
+  flush();
+  return html;
+
+  // 行内：转义 + **加粗** + 裸链接轻量处理
+  function inner(s) {
+    var x = esc(s);
+    x = x.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+    return x;
+  }
+}
+
+/* 摘要自动生成：清掉标记后截前 60 字 */
+function autoSummary(text, len) {
+  var clean = String(text || '')
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, '')   // 去掉图片
+    .replace(/^#{1,6}\s+.*$/gm, '')         // 整行丢掉小标题，别让它混进摘要
+    .replace(/^[-*+]\s+/gm, '')             // 去掉列表符号
+    .replace(/^\d+\.\s+/gm, '')
+    .replace(/^>\s?/gm, '')                 // 去掉引用号
+    .replace(/\*\*/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+  var max = len || 60;
+  if (clean.length <= max) return clean;
+  // 超过长度时优先在句号处断开，别把一句话截成半截
+  var slice = clean.slice(0, max);
+  var cut = Math.max(slice.lastIndexOf('。'), slice.lastIndexOf('！'), slice.lastIndexOf('？'));
+  if (cut >= Math.floor(max * 0.25)) return clean.slice(0, cut + 1);
+  // 没有句号（正文全是列表项）就退到最后一个空格处断，别把一条列表项切一半
+  var space = slice.lastIndexOf(' ');
+  if (space >= Math.floor(max * 0.5)) return slice.slice(0, space) + '…';
+  return slice + '…';
+}
+
+/* ---------------------------------------------------------------
+   4. 文章数据：站内所有内容都在这一个数组里
+   --------------------------------------------------------------- */
+/* -----------------------------------------------------------------
+   站内文章数据
+   —— 直接改这个数组就能改内容（字符串里的 \n 是换行，别删）
+   —— 想加一篇：复制一段 { ... }，改 id（不能重复）和内容即可
+   —— isTop 最多 3 条，topOrder 决定首页置顶区顺序（1 在最上）
+   ----------------------------------------------------------------- */
+var GUIDES_DATA = [
+  {
+    id: "g1",
+    title: "开服前 7 天建筑顺序：先把主楼点到 3 级",
+    category: "新出活动",
+    summary: "前面七天最容易犯的错，是把资源撒在七八个建筑上，结果主楼卡在 2 级，什么都解锁不了。",
+    authorName: "青山",
+    cover: "",
+    isTop: true,
+    topOrder: 1,
+    createTime: 1794106800000,
+    content: "前面七天最容易犯的错，是把资源撒在七八个建筑上，结果主楼卡在 2 级，什么都解锁不了。\n\n## 第一优先：洞府仙居\n\n主楼等级决定所有建筑的上限，所以它永远排第一。\n- 先把洞府仙居点到 3 级，解锁天外天探索\n- 天外天是中后期进阶材料、法器材料的主要来源，越早开越划算\n> 主楼没升上去之前，其他建筑的等级只是数字好看，实际产不出来。\n\n## 第二：木坊、石坊\n\n这两个决定建造材料够不够用。材料一缺口，所有升级都会卡住，所以跟着主楼走。\n\n## 第三：灵田贴灵脉\n\n灵田靠近灵脉摆放，产量明显提升，这个位置别浪费。\n- 前期种短周期灵植，快速刷资源\n- 后期换成长周期药材，供丹房用\n\n## 第四：仓库\n\n仓库等级跟不上会爆仓，挂机产出的资源溢出就是白扔。\n> 每天上线第一件事就是收资源，仓库满之前先升仓库。\n\n## 最后：锻造房\n\n前期不用投太多，等主力阵容定下来再补。"
+  },
+  {
+    id: "g2",
+    title: "零氪人族阵容：慈航 + 后羿这套怎么用",
+    category: "氪金推荐",
+    summary: "人族是零氪最稳的选择，角色能通过日常任务和副本拿到，培养成本低。",
+    authorName: "青山",
+    cover: "",
+    isTop: false,
+    topOrder: 0,
+    createTime: 1794020400000,
+    content: "人族是零氪最稳的选择，角色能通过日常任务和副本拿到，培养成本低。\n\n## 阵容搭配\n\n人族主角 + 慈航真人 + 后羿 + 通天教主 + 姜子牙\n\n- 慈航真人：全队回血 + 加 buff，续航核心\n- 后羿：单体爆发，专打 BOSS 和关键目标\n- 通天教主：控制，限制对面输出节奏\n- 姜子牙：补群体伤害\n\n## 资源怎么分\n\n- 第一优先给主C（后羿），攻击、暴击拉满\n- 第二优先给前排，血量防御\n- 辅助只把关键技能升到能用的程度，别平均升级\n\n## 升星节奏\n\n> 平民优先让主力输出到 4 星，辅助保持 3 星就够。\n4 星解锁觉醒技能，性价比最高，5 星消耗对零氪太重。\n\n## 常见坑\n\n三个阵营不要混养，资源一分散，哪一队都打不动。选定一套，集中喂。"
+  },
+  {
+    id: "g3",
+    title: "太虚争锋三路排兵：20 个战力怎么分",
+    category: "赛季玩法",
+    summary: "仙门最强的打法不是把所有高战力堆到一路。原因很直接：胜队带着剩余兵力继续打下一队，一路崩了，另外两路的优势也换不回来。",
+    authorName: "青山",
+    cover: "",
+    isTop: false,
+    topOrder: 0,
+    createTime: 1794193200000,
+    content: "仙门最强的打法不是把所有高战力堆到一路。原因很直接：胜队带着剩余兵力继续打下一队，一路崩了，另外两路的优势也换不回来。\n\n## 一、先算人数，再算战力\n\n- 每路最多 20 人出战，全门报名不足 10 人直接弃赛\n- 报名时每人只能选一条路，选了不能改\n- 系统按队列战力排序，战力高的优先进场\n\n## 二、三路配比建议\n\n> 1 路：主力队（前 5 名战力）冲头阵，抢首胜\n> 2 路：均衡队，够撑三到四场\n> 3 路：耗子队，专门消耗对面\n\n这样安排，即便 3 路早崩，1、2 路拿下两路就是本轮胜利，依然拿 3 点太虚积分。\n\n## 三、阵营加成要对位\n\n每条分路的加成敌我一致，别想避开，而要把同阵营队伍放到对应路上，把自己的收益吃满。\n\n## 四、备战期只改分路\n\n已经报名的成员与分路不能变更，能动的只有每轮战前的分路队伍配置。所以真正需要提前想清楚的，是报名那三天的分路选择。"
+  },
+  {
+    id: "g4",
+    title: "太虚争锋五阶段：哪一步最容易翻车",
+    category: "赛季玩法",
+    summary: "活动以仙门为单位，一轮分五个阶段，时间点固定，错过就等下周。",
+    authorName: "青山",
+    cover: "",
+    isTop: false,
+    topOrder: 0,
+    createTime: 1793934000000,
+    content: "活动以仙门为单位，一轮分五个阶段，时间点固定，错过就等下周。\n\n## 报名：周一 00:00 至周三 23:00\n\n- 宗主境界需达到 10 级以上\n- 每个成员自行报名，宗主不能代报\n- 报名不占出征栏位，战斗弟子不会损失\n\n## 匹配：周三 23:00 至周四 00:00\n\n段位相近的 6 个仙门随机同组。报名成功的仙门在活动结束前无法解散。\n\n## 备战：周四 00:00 起\n\n掌门或授权管理可以调整分路队伍，进行排兵布阵。\n\n## 战斗：备战结束 1 小时后\n\n三条分路同时对抗，过程自动，事后看战报回放。\n\n## 结算：周六 12:00 至周日 24:00\n\n按太虚积分排名发奖。积分相同，先比分路胜场，再比击败队伍数。\n\n> 最容易翻车的地方是报名。人数不足 10 人，整周白跑，报名但没出战的成员也能拿段位奖励，所以先报上再说。"
+  },
+  {
+    id: "g5",
+    title: "弟子词条怎么挑：勤勉、武力、灵根",
+    category: "数据图表",
+    summary: "前期不要大量招弟子，养不起。两个人就够用。",
+    authorName: "青山",
+    cover: "",
+    isTop: false,
+    topOrder: 0,
+    createTime: 1794279600000,
+    content: "前期不要大量招弟子，养不起。两个人就够用。\n\n## 两个岗位\n\n- 采集弟子：看勤勉，勤勉越高，砍树挖矿越快\n- 战斗弟子：看武力，直接影响推图战力\n\n> 前期招 3 个以上弟子，资源会被摊薄，谁都升不动。\n\n## 灵根决定上限\n\n灵根天赋影响弟子在对应岗位的成长天花板，短时间看不出来，但中期差距明显。挑弟子时先看灵根，再看词条。\n\n## 后期再扩编\n\n等主楼和仓库跟上、资源有富余了，再按灵田、阵法维护这些岗位补充。弟子不同词条对应不同岗位，不要只看总评分。"
+  },
+  {
+    id: "g6",
+    title: "天外天探索：每天必打的三条理由",
+    category: "玩家日常",
+    summary: "进阶材料、法器材料主要从这里出。法器要升红，绕不开这条路。",
+    authorName: "青山",
+    cover: "",
+    isTop: false,
+    topOrder: 0,
+    createTime: 1794366000000,
+    content: "## 一、它是材料主产地\n\n进阶材料、法器材料主要从这里出。法器要升红，绕不开这条路。\n\n## 二、越早开越好\n\n主楼 3 级就解锁，很多人前期把钱花在锻造房上，反而拖慢了这里。\n\n## 三、每天都有，断了就落后\n\n> 探索是每日额度，不打就是纯亏。挂机产出的资源可以补，材料补不回来。\n\n建议把它排在每天上线清单的前两位，收资源之后立刻处理。"
+  },
+  {
+    id: "g7",
+    title: "灵玉别乱抽：限定 UP 才是正解",
+    category: "氪金推荐",
+    summary: "灵玉是所有资源里最不该乱花的一种。",
+    authorName: "青山",
+    cover: "",
+    isTop: false,
+    topOrder: 0,
+    createTime: 1794279600000,
+    content: "灵玉是所有资源里最不该乱花的一种。\n\n## 抽卡原则\n\n- 普通卡池一次都别碰，留着等限定 UP\n- 悬赏任务是稳定灵玉来源，尽量做完\n- 本命法宝碎片只给核心主力\n\n## 平均升级是最亏的\n\n仙友优先拉主C和奶妈，其他辅助升到能解锁关键技能就停。平均升级的结果是每个人都不够强。\n\n## 法器别反复强化低阶\n\n前期用紫色过渡就行，攒材料直接冲红，不要给低阶法器反复强化。"
+  },
+  {
+    id: "g8",
+    title: "装备强化顺序：全身同步比单件猛",
+    category: "玩家日常",
+    summary: "武器先强化，直接决定输出 再是头冠、衣服这些防御部位 全身同步到 +5，再统一往 +10 推…",
+    authorName: "青山",
+    cover: "",
+    isTop: false,
+    topOrder: 0,
+    createTime: 1794452400000,
+    content: "## 优先级\n\n1. 武器先强化，直接决定输出\n2. 再是头冠、衣服这些防御部位\n3. 全身同步到 +5，再统一往 +10 推\n\n> 同步强化能激活额外属性加成，比把一件顶到满收益高。\n\n## 洗炼只看这几个属性\n\n暴击伤害、暴击、灵力、生命。其他属性洗出来也是浪费资源。\n\n## 品质路线\n\n绿 → 蓝 → 紫 → 橙 → 红（彩装）。后期只追红色，中间的过渡装不要投入太多。"
+  }
+];
+function buildSampleGuides() { return GUIDES_DATA; }
+/* ===============================================================
+   5. 数据层：所有网络请求都收在这里
+      ① 离线   → 读 GUIDES_DATA + localStorage
+      ② 自建   → CONFIG.API（server.js 那套接口）
+      ③ Supabase → CONFIG.SUPABASE（云端数据库 + 对象存储）
+   =============================================================== */
+function apiUrl(query) {
+  if (!CONFIG.API) return '';
+  return CONFIG.API + (CONFIG.API.indexOf('?') >= 0 ? '&' : '?') + query;
+}
+function apiGet(query) {
+  return fetch(apiUrl(query), { method: 'GET' })
+    .then(function (r) { return r.json(); });
+}
+function apiPost(body) {
+  return fetch(CONFIG.API, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  }).then(function (r) { return r.json(); });
+}
+
+/* ---------------------------------------------------------------
+   Supabase 适配层
+   数据库字段是下划线命名（create_time），前端统一用驼峰（createTime），
+   这两个函数负责来回转换，别在别处直接拼字段名。
+   --------------------------------------------------------------- */
+function sbBase() {
+  return String(CONFIG.SUPABASE.url || '').replace(/\/+$/, '');
+}
+function sbHeaders(extra) {
+  var key = String(CONFIG.SUPABASE.anonKey || '');
+  var h = { 'apikey': key };
+  // 两种 key 的传法不一样，这里自动判断：
+  //   旧版 anon（JWT，eyJ 开头）  → apikey + Authorization: Bearer
+  //   新版 publishable（sb_publishable_ 开头）不是 JWT，只能放 apikey 头
+  //   把非 JWT 塞进 Authorization 会被网关拒掉（401）
+  if (key.indexOf('eyJ') === 0) {
+    h['Authorization'] = 'Bearer ' + key;
+  }
+  if (extra) { for (var k in extra) if (extra.hasOwnProperty(k)) h[k] = extra[k]; }
+  return h;
+}
+
+/* 数据库行 → 前端对象 */
+function rowToGuide(r) {
+  if (!r) return null;
+  return {
+    id: r.id,
+    title: r.title || '',
+    category: r.category || '仙门玩法',
+    summary: r.summary || '',
+    content: r.content || '',
+    authorName: r.author_name || '青山',
+    cover: r.cover || '',
+    coverThumb: r.cover_thumb || '',
+    isTop: !!r.is_top,
+    topOrder: r.top_order || 0,
+    createTime: Number(r.create_time) || 0
+  };
+}
+/* 前端对象 → 数据库行 */
+function guideToRow(g) {
+  return {
+    id: g.id,
+    title: g.title,
+    category: g.category,
+    summary: g.summary || '',
+    content: g.content || '',
+    author_name: g.authorName || '青山',
+    cover: g.cover || '',
+    cover_thumb: g.coverThumb || '',
+    is_top: !!g.isTop,
+    top_order: g.topOrder || 0,
+    create_time: Number(g.createTime) || Date.now()
+  };
+}
+
+/* 列表只取这些字段，不拉正文 —— 几百篇时体积差 3 倍以上 */
+var LIST_FIELDS = 'id,title,category,summary,author_name,cover,cover_thumb,is_top,top_order,create_time';
+/* 老库没有 cover_thumb 时的降级字段表（数据库还没跑升级脚本也不至于白屏） */
+var LIST_FIELDS_LEGACY = 'id,title,category,summary,author_name,cover,is_top,top_order,create_time';
+var useThumbCol = true;
+
+function listFields() { return useThumbCol ? LIST_FIELDS : LIST_FIELDS_LEGACY; }
+
+/* 统一的 GET：如果数据库还没有 cover_thumb，就自动降级重试一次 */
+async function sbFetch(path, headers) {
+  var res = await fetch(sbBase() + path, { headers: headers, cache: 'no-store' });
+  if (!res.ok && res.status === 400 && useThumbCol && path.indexOf('cover_thumb') >= 0) {
+    useThumbCol = false;
+    console.warn('[Supabase] guides 表没有 cover_thumb 字段，已降级为不含缩略图的查询（去跑升级 SQL）');
+    var legacyPath = path.split('cover_thumb,').join('').split(',cover_thumb').join('');
+    res = await fetch(sbBase() + legacyPath, { headers: headers, cache: 'no-store' });
+  }
+  return res;
+}
+
+async function sbGet(path) {
+  var res = await sbFetch(path, sbHeaders());
+  if (!res.ok) throw new Error('Supabase 读取失败 HTTP ' + res.status);
+  return res.json();
+}
+
+/* 带总数的查询：用 Prefer: count=exact，从 content-range 里读总数 */
+async function sbGetCounted(path) {
+  var res = await sbFetch(path, sbHeaders({ 'Prefer': 'count=exact' }));
+  if (!res.ok) throw new Error('Supabase 读取失败 HTTP ' + res.status);
+  var rows = await res.json();
+  var total = null;
+  var cr = res.headers.get('content-range') || '';
+  var m = cr.match(/\/(\d+)\s*$/);
+  if (m) total = parseInt(m[1], 10);
+  return { rows: rows || [], total: total };
+}
+async function sbRpc(fn, body) {
+  try {
+    var res = await fetch(sbBase() + '/rest/v1/rpc/' + fn, {
+      method: 'POST',
+      headers: sbHeaders({ 'Content-Type': 'application/json' }),
+      body: JSON.stringify(body || {})
+    });
+    var data = null;
+    try { data = await res.json(); } catch (e) { data = null; }
+    if (!res.ok) {
+      var msg = (data && (data.message || data.hint || data.msg)) || ('HTTP ' + res.status);
+      return { ok: false, msg: msg };
+    }
+    // 函数内部统一返回 { ok, data, msg }
+    if (data && typeof data === 'object' && 'ok' in data) return data;
+    return { ok: true, data: data };
+  } catch (e) {
+    console.error('[Supabase] ' + fn + ' 调用失败', e);
+    return { ok: false, msg: '网络异常，请重试' };
+  }
+}
+
+/* base64 → Uint8Array（上传二进制用） */
+function base64ToBytes(b64) {
+  var bin = atob(String(b64 || ''));
+  var arr = new Uint8Array(bin.length);
+  for (var i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
+  return arr;
+}
+
+/* 上传图片到 Supabase Storage，返回长期可用的公开地址
+   ext 支持 jpg / png / webp；webp 比 jpeg 小 15~35% */
+async function sbUpload(base64, ext) {
+  var e = (ext === 'png') ? 'png' : ((ext === 'webp') ? 'webp' : 'jpg');
+  var mime = e === 'png' ? 'image/png' : (e === 'webp' ? 'image/webp' : 'image/jpeg');
+  var path = 'p' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8) + '.' + e;
+  var url = sbBase() + '/storage/v1/object/' + CONFIG.SUPABASE.bucket + '/' + path;
+  try {
+    var res = await fetch(url, {
+      method: 'POST',
+      headers: sbHeaders({
+        'Content-Type': mime,
+        'x-upsert': 'true',
+        // 图片地址带随机串、永不覆盖，所以可以放心缓存一年：
+        // 回访用户再次打开文章时直接走本地缓存，一张图 0 字节、瞬间显示
+        'cache-control': 'public, max-age=31536000, immutable'
+      }),
+      body: base64ToBytes(base64)
+    });
+    if (!res.ok) {
+      var t = '';
+      try { t = await res.text(); } catch (err) {}
+      console.error('[Supabase] 上传失败', res.status, t);
+      return { ok: false, msg: '图片上传失败（HTTP ' + res.status + '），检查存储桶和权限' };
+    }
+  } catch (err) {
+    console.error('[Supabase] 上传异常', err);
+    return { ok: false, msg: '图片上传失败，网络异常' };
+  }
+  return {
+    ok: true,
+    data: { url: sbBase() + '/storage/v1/object/public/' + CONFIG.SUPABASE.bucket + '/' + path }
+  };
+}
+
+/* ---- 本地演示实现 ---- */
+var LOCAL_MEMBERS_SEED = [
+  { id: 'm1', name: '青山',  code: 'zaohua',   role: 'owner',  enabled: true  },
+  { id: 'm2', name: '云中客', code: 'yunzhong', role: 'editor', enabled: true  },
+  { id: 'm3', name: '旧雨',  code: 'jiuyu',    role: 'editor', enabled: false }
+];
+
+function localGuides() {
+  return readJSON(LS.guides, []);
+}
+function localMembers() {
+  var list = readJSON(LS.members, null);
+  if (!list) {
+    list = LOCAL_MEMBERS_SEED.slice();
+    writeJSON(LS.members, list);
+  }
+  return list;
+}
+function randCode() {
+  var chars = 'abcdefghijkmnpqrstuvwxyz23456789'; // 去掉易混的 l/o/0/1
+  var s = '';
+  for (var i = 0; i < 8; i++) s += chars.charAt(Math.floor(Math.random() * chars.length));
+  return s;
+}
+function uid(prefix) {
+  return prefix + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+}
+
+var Store = {
+  /* 列表（分页）
+     opts = { limit, offset, category, keyword }
+     返回 { list, total, hasMore } */
+  list: function (opts) {
+    opts = opts || {};
+    var limit = opts.limit || 20;
+    var offset = opts.offset || 0;
+
+    if (bootMode() === 'supabase') {
+      var q = '/rest/v1/guides?select=' + listFields() +
+              '&order=create_time.desc' +
+              '&limit=' + limit + '&offset=' + offset;
+      if (opts.category && opts.category !== '全部') {
+        q += '&category=eq.' + encodeURIComponent(opts.category);
+      }
+      var kw = (opts.keyword || '').trim();
+      if (kw) {
+        // 服务端模糊搜索：标题或摘要命中
+        q += '&or=' + encodeURIComponent('(title.ilike.*' + kw + '*,summary.ilike.*' + kw + '*)');
+      }
+      return sbGetCounted(q).then(function (res) {
+        var list = res.rows.map(rowToGuide);
+        var total = (res.total == null) ? list.length : res.total;
+        return { list: list, total: total, hasMore: offset + list.length < total };
+      });
+    }
+
+    // 离线 / 自建后端：本地过滤后分页
+    var all;
+    if (!CONFIG.API) {
+      all = buildSampleGuides().concat(localGuides());
+    }
+    if (!CONFIG.API) {
+      var cat = opts.category;
+      var k = (opts.keyword || '').trim().toLowerCase();
+      var filtered = all.filter(function (g) {
+        if (cat && cat !== '全部' && g.category !== cat) return false;
+        if (!k) return true;
+        return ((g.title || '') + ' ' + (g.summary || '') + ' ' + (g.content || ''))
+          .toLowerCase().indexOf(k) >= 0;
+      }).sort(function (a, b) { return (b.createTime || 0) - (a.createTime || 0); });
+      var page = filtered.slice(offset, offset + limit);
+      return Promise.resolve({
+        list: page,
+        total: filtered.length,
+        hasMore: offset + page.length < filtered.length
+      });
+    }
+
+    return apiGet('action=list&limit=' + limit + '&offset=' + offset +
+                  '&category=' + encodeURIComponent(opts.category || '') +
+                  '&keyword=' + encodeURIComponent(opts.keyword || '')).then(function (r) {
+      if (!r || !r.ok) throw new Error((r && r.msg) || '加载失败');
+      var arr = r.data || [];
+      var tot = (r.total == null) ? arr.length : r.total;
+      return { list: arr, total: tot, hasMore: offset + arr.length < tot };
+    });
+  },
+
+  /* 置顶的三篇（首页单独取，不受分页影响） */
+  pinned: function () {
+    if (bootMode() === 'supabase') {
+      return sbGet('/rest/v1/guides?select=' + listFields() +
+                   '&is_top=eq.true&order=top_order.asc&limit=3')
+        .then(function (rows) { return (rows || []).map(rowToGuide); });
+    }
+    if (CONFIG.API) {
+      return apiGet('action=pinned').then(function (r) { return (r && r.ok && r.data) || []; });
+    }
+    var all = buildSampleGuides().concat(localGuides());
+    return Promise.resolve(
+      all.filter(function (g) { return g.isTop; })
+         .sort(function (a, b) { return (a.topOrder || 99) - (b.topOrder || 99); })
+         .slice(0, 3)
+    );
+  },
+
+  /* 按 id 批量取（收藏页用），顺序按传入的 ids */
+  byIds: function (ids) {
+    if (!ids || !ids.length) return Promise.resolve([]);
+    if (bootMode() === 'supabase') {
+      var clean = ids.filter(function (x) { return /^[A-Za-z0-9_-]+$/.test(x); });
+      if (!clean.length) return Promise.resolve([]);
+      var q = '/rest/v1/guides?select=' + listFields() + '&id=in.(' + clean.join(',') + ')';
+      return sbGet(q).then(function (rows) {
+        var map = {};
+        (rows || []).forEach(function (r) { map[r.id] = rowToGuide(r); });
+        return ids.map(function (id) { return map[id] || null; });
+      });
+    }
+    if (CONFIG.API) {
+      return apiGet('action=byIds&ids=' + encodeURIComponent(ids.join(',')))
+        .then(function (r) { return (r && r.ok && r.data) || []; });
+    }
+    var all = buildSampleGuides().concat(localGuides());
+    var byId = {};
+    all.forEach(function (g) { byId[g.id] = g; });
+    return Promise.resolve(ids.map(function (id) { return byId[id] || null; }));
+  },
+
+  /* 详情 */
+  detail: function (id) {
+    if (bootMode() === 'supabase') {
+      return sbGet('/rest/v1/guides?id=eq.' + encodeURIComponent(id) + '&select=*')
+        .then(function (rows) {
+          return rows && rows.length ? rowToGuide(rows[0]) : null;
+        });
+    }
+    if (!CONFIG.API) {
+      var all = buildSampleGuides().concat(localGuides());
+      for (var i = 0; i < all.length; i++) {
+        if (all[i].id === id) return Promise.resolve(all[i]);
+      }
+      return Promise.resolve(null);
+    }
+    return apiGet('action=detail&id=' + encodeURIComponent(id)).then(function (r) {
+      if (!r || !r.ok) throw new Error((r && r.msg) || '文章不存在');
+      return r.data;
+    });
+  },
+
+  /* 登录：成员码换 token */
+  login: function (code) {
+    if (bootMode() === 'supabase') {
+      return sbRpc('zh_login', { p_code: code });
+    }
+    if (!CONFIG.API) {
+      var list = localMembers();
+      for (var i = 0; i < list.length; i++) {
+        if (list[i].code === code) {
+          if (!list[i].enabled) return Promise.resolve({ ok: false, msg: '该成员码已停用' });
+          return Promise.resolve({
+            ok: true,
+            data: {
+              token: 'local-' + list[i].id,
+              name: list[i].name,
+              role: list[i].role,
+              id: list[i].id
+            }
+          });
+        }
+      }
+      return Promise.resolve({ ok: false, msg: '成员码不正确' });
+    }
+    return apiPost({ action: 'login', code: code }).catch(function () {
+      return { ok: false, msg: '网络异常，请重试' };
+    });
+  },
+
+  /* 发布 */
+  post: function (payload, token) {
+    if (bootMode() === 'supabase') {
+      var sbSummary = payload.summary || autoSummary(payload.content, 60);
+      return sbRpc('zh_post', {
+        p_token: token,
+        p_title: payload.title,
+        p_category: payload.category,
+        p_summary: sbSummary,
+        p_content: payload.content,
+        p_author: payload.authorName,
+        p_cover: payload.cover || '',
+        p_cover_thumb: payload.coverThumb || '',
+        p_is_top: !!payload.isTop
+      }).then(function (r) {
+        if (r && r.ok && r.data) return { ok: true, data: rowToGuide(r.data) };
+        return r;
+      });
+    }
+    if (!CONFIG.API) {
+      var guide = {
+        id: uid('n'),
+        title: payload.title,
+        category: payload.category,
+        summary: payload.summary || autoSummary(payload.content, 60),
+        content: payload.content,
+        authorName: payload.authorName || '青山',
+        cover: payload.cover || '',
+        coverThumb: payload.coverThumb || '',
+        isTop: !!payload.isTop,
+        topOrder: payload.isTop ? 3 : 0,
+        createTime: Date.now()
+      };
+      var mine = localGuides();
+      mine.unshift(guide);
+      if (!writeJSON(LS.guides, mine)) return Promise.resolve({ ok: false, msg: '本地存储已满' });
+      return Promise.resolve({ ok: true, data: guide });
+    }
+    var body = {
+      action: 'post',
+      token: token,
+      title: payload.title,
+      category: payload.category,
+      summary: payload.summary,
+      content: payload.content,
+      authorName: payload.authorName,
+      cover: payload.cover,
+      coverThumb: payload.coverThumb,
+      isTop: payload.isTop
+    };
+    return apiPost(body).catch(function () { return { ok: false, msg: '网络异常，请重试' }; });
+  },
+
+  /* 编辑已有文章（仅 owner） */
+  update: function (id, payload, token) {
+    if (bootMode() === 'supabase') {
+      var sbSummary = payload.summary || autoSummary(payload.content, 60);
+      return sbRpc('zh_update', {
+        p_token: token,
+        p_id: id,
+        p_title: payload.title,
+        p_category: payload.category,
+        p_summary: sbSummary,
+        p_content: payload.content,
+        p_author: payload.authorName,
+        p_cover: payload.cover || '',
+        p_cover_thumb: payload.coverThumb || '',
+        p_is_top: !!payload.isTop
+      }).then(function (r) {
+        if (r && r.ok && r.data) return { ok: true, data: rowToGuide(r.data) };
+        return r;
+      });
+    }
+    if (!CONFIG.API) {
+      var mine = localGuides();
+      var hit = null;
+      for (var i = 0; i < mine.length; i++) {
+        if (mine[i].id === id) { hit = mine[i]; break; }
+      }
+      if (!hit) return Promise.resolve({ ok: false, msg: '文章不存在' });
+      hit.title = payload.title;
+      hit.category = payload.category;
+      hit.summary = payload.summary || autoSummary(payload.content, 60);
+      hit.content = payload.content;
+      hit.authorName = payload.authorName || hit.authorName;
+      hit.cover = payload.cover || '';
+      hit.coverThumb = payload.coverThumb || '';
+      hit.isTop = !!payload.isTop;
+      if (!writeJSON(LS.guides, mine)) return Promise.resolve({ ok: false, msg: '本地存储已满' });
+      return Promise.resolve({ ok: true, data: hit });
+    }
+    return apiPost({
+      action: 'update',
+      token: token,
+      id: id,
+      title: payload.title,
+      category: payload.category,
+      summary: payload.summary,
+      content: payload.content,
+      authorName: payload.authorName,
+      cover: payload.cover,
+      coverThumb: payload.coverThumb,
+      isTop: payload.isTop
+    }).catch(function () { return { ok: false, msg: '网络异常，请重试' }; });
+  },
+
+  /* 删除文章（仅 owner，权限在服务端/数据库函数里再校验一次） */
+  remove: function (id, token) {
+    if (bootMode() === 'supabase') {
+      return sbRpc('zh_delete', { p_token: token, p_id: id });
+    }
+    if (!CONFIG.API) {
+      // 离线模式：只能删本机发布的文章，内置的删不掉
+      var mine = localGuides();
+      var idx = -1;
+      for (var i = 0; i < mine.length; i++) if (mine[i].id === id) { idx = i; break; }
+      if (idx < 0) return Promise.resolve({ ok: false, msg: '离线模式下只能删除本机发布的文章' });
+      mine.splice(idx, 1);
+      writeJSON(LS.guides, mine);
+      return Promise.resolve({ ok: true });
+    }
+    return apiPost({ action: 'delete', token: token, id: id })
+      .catch(function () { return { ok: false, msg: '网络异常，请重试' }; });
+  },
+
+  /* 上传图片：base64 → 长期可访问的 https 地址 */
+  upload: function (base64, ext, token) {
+    if (bootMode() === 'supabase') {
+      return sbUpload(base64, ext);
+    }
+    if (!CONFIG.API) {
+      // 离线演示：直接把 dataURL 存进文章里，能立刻看到图
+      return Promise.resolve({ ok: true, data: { url: 'data:image/' + (ext === 'png' ? 'png' : 'jpeg') + ';base64,' + base64 } });
+    }
+    return apiPost({ action: 'upload', token: token, base64: base64, ext: ext || 'jpg' })
+      .catch(function () { return { ok: false, msg: '网络异常，请重试' }; });
+  },
+
+  /* 成员列表 */
+  members: function (token) {
+    if (bootMode() === 'supabase') return sbRpc('zh_members', { p_token: token });
+    if (!CONFIG.API) return Promise.resolve({ ok: true, data: localMembers() });
+    return apiPost({ action: 'members', token: token })
+      .catch(function () { return { ok: false, msg: '网络异常，请重试' }; });
+  },
+
+  /* 添加成员 */
+  addMember: function (name, token) {
+    if (bootMode() === 'supabase') return sbRpc('zh_add_member', { p_token: token, p_name: name });
+    if (!CONFIG.API) {
+      var list = localMembers();
+      var m = { id: uid('m'), name: name, code: randCode(), role: 'editor', enabled: true };
+      list.push(m);
+      writeJSON(LS.members, list);
+      return Promise.resolve({ ok: true, data: { id: m.id, code: m.code, name: m.name } });
+    }
+    return apiPost({ action: 'addMember', token: token, name: name })
+      .catch(function () { return { ok: false, msg: '网络异常，请重试' }; });
+  },
+
+  /* 启用 / 停用 */
+  setEnabled: function (id, enabled, token) {
+    if (bootMode() === 'supabase') {
+      return sbRpc('zh_set_enabled', { p_token: token, p_id: id, p_enabled: !!enabled });
+    }
+    if (!CONFIG.API) {
+      var list = localMembers();
+      for (var i = 0; i < list.length; i++) {
+        if (list[i].id === id) { list[i].enabled = !!enabled; break; }
+      }
+      writeJSON(LS.members, list);
+      return Promise.resolve({ ok: true });
+    }
+    return apiPost({ action: 'setEnabled', token: token, id: id, enabled: !!enabled })
+      .catch(function () { return { ok: false, msg: '网络异常，请重试' }; });
+  },
+
+  /* 上报一次访问。失败静默，绝不影响用户看内容 */
+  visit: function (path, articleId) {
+    if (bootMode() === 'supabase') {
+      return sbRpc('zh_visit', {
+        p_path: path || '/',
+        p_article_id: articleId || '',
+        p_ref: ''
+      });
+    }
+    return Promise.resolve({ ok: true });
+  },
+
+  /* 访问统计（仅 owner）。自建后端模式没有实现，直接给提示 */
+  stats: function (token) {
+    if (bootMode() === 'supabase') return sbRpc('zh_stats', { p_token: token });
+    return Promise.resolve({ ok: false, msg: '统计功能只在 Supabase 模式下可用' });
+  }
+};
+
+/* ---------------------------------------------------------------
+   6. 登录态 / 收藏
+   --------------------------------------------------------------- */
+function getAuth() { return readJSON(LS.auth, null); }
+function setAuth(a) { writeJSON(LS.auth, a); }
+function clearAuth() { try { localStorage.removeItem(LS.auth); } catch (e) {} }
+function isLogged() { var a = getAuth(); return !!(a && a.token); }
+function isOwner() { var a = getAuth(); return !!(a && a.role === 'owner'); }
+
+function isFaved(id) { return state.favs.indexOf(id) >= 0; }
+function toggleFav(id) {
+  var i = state.favs.indexOf(id);
+  if (i >= 0) state.favs.splice(i, 1);
+  else state.favs.push(id);
+  writeJSON(LS.favs, state.favs);
+  return i < 0;
+}
+
+/* ---------------------------------------------------------------
+   7. 视图：首页
+   --------------------------------------------------------------- */
+function chipsHTML() {
+  return CATEGORIES.reduce(function (acc, c) { return acc; }, '') +
+    ['全部'].concat(CATEGORIES).map(function (c) {
+      return '<div class="chip ' + (state.cat === c ? 'on' : '') + '" data-act="cat" data-cat="' + escAttr(c) + '">' + esc(c) + '</div>';
+    }).join('');
+}
+
+function entryHTML() {
+  var a = getAuth();
+  if (!a) {
+    // 对外只有一句说明，不放任何登录入口：访客看到的就是一个纯资料库。
+    // 站方自己的入口 —— 直接访问 #/login，或在手机上手点这句话 5 下（见 viewHome 里的事件）
+    return '<div class="entry entry-plain" id="entry-plain">' +
+      '<div class="entry-t">造化仙府 · 攻略资料库</div>' +
+      '<div class="entry-s">内容由运营者整理，仅供参考</div>' +
+    '</div>';
+  }
+  return '<div class="entry">' +
+    '<div class="entry-t">' + esc(a.name) + ' · ' + roleName(a.role) + '</div>' +
+    '<div class="entry-s">已登录，可发布攻略</div>' +
+    '<div class="entry-btns">' +
+      '<button class="btn btn-primary" data-act="go" data-to="/publish">发布攻略</button>' +
+      (bootMode() === 'offline' ? '<button class="btn btn-gold" data-act="export-site">导出站点</button>' : '') +
+      (a.role === 'owner' ? '<button class="btn" data-act="go" data-to="/members">成员管理</button>' : '') +
+      (a.role === 'owner' ? '<button class="btn" data-act="go" data-to="/stats">访问统计</button>' : '') +
+      '<button class="btn" data-act="logout">退出登录</button>' +
+    '</div>' +
+    '<div class="entry-s" style="margin-top:12px">' +
+      (bootMode() === 'offline'
+        ? '发完文章点「导出站点」，把下载的 index.html 拖到托管平台覆盖，别人就能看到'
+        : '发布后立刻对所有访客可见') +
+    '</div>' +
+  '</div>';
+}
+
+var PAGE_SIZE = 20;          // 每页条数
+var searchTimer = null;
+
+async function viewHome(seq) {
+  app.innerHTML =
+    '<div class="hd">' +
+      '<div class="hd-kicker">造化仙府</div>' +
+      '<h1 class="hd-title">攻略资料库</h1>' +
+      '<p class="hd-desc">活动时间、阵容搭配、仙门玩法，都在这里。内容由成员整理，持续更新。</p>' +
+      '<div class="hd-fav" data-act="go" data-to="/favs">' +
+        '<span class="hd-fav-ico">★</span> 我的收藏' +
+        (state.favs.length ? '<span class="hd-fav-n">' + state.favs.length + '</span>' : '') +
+      '</div>' +
+    '</div>' +
+    '<div class="search">' +
+      '<span class="search-ico">⌕</span>' +
+      '<input id="q" type="search" autocomplete="off" placeholder="搜攻略、阵容、活动…" value="' + escAttr(state.keyword) + '" />' +
+      '<span class="search-clear" id="q-clear" style="display:' + (state.keyword ? 'block' : 'none') + '">✕</span>' +
+    '</div>' +
+    '<div class="chips" id="chips">' + chipsHTML() + '</div>' +
+    '<div id="pin-wrap"></div>' +
+    '<div class="sec-h" id="sec-title">最新攻略</div>' +
+    '<div id="list-wrap"></div>' +
+    entryHTML();
+
+  // 首屏秒开：先用文件里内置的文章画出来，不等网络
+  state.guides = buildSampleGuides().concat(localGuides()).slice(0, PAGE_SIZE);
+  state.pinned = buildSampleGuides().concat(localGuides())
+    .filter(function (g) { return g.isTop; })
+    .sort(function (a, b) { return (a.topOrder || 99) - (b.topOrder || 99); })
+    .slice(0, 3);
+  state.total = state.guides.length;
+  state.hasMore = false;
+  renderHomeLists();
+  bindHomeEvents();
+
+  if (bootMode() === 'offline') return;
+
+  loadHome(true, seq);
+}
+
+/* 拉首页数据：reset=true 表示重来一页（切分类 / 搜索），false 表示翻下一页 */
+async function loadHome(reset, seq) {
+  var token = routeSeq;
+  state.loading = true;
+  var offset = reset ? 0 : state.guides.length;
+  var showPins = (state.cat === '全部' && !state.keyword);
+
+  try {
+    var jobs = [
+      Store.list({
+        limit: PAGE_SIZE,
+        offset: offset,
+        category: state.cat,
+        keyword: state.keyword
+      })
+    ];
+    if (reset && showPins) jobs.push(Store.pinned());
+
+    var out = await Promise.all(jobs);
+    if (token !== routeSeq) return;
+
+    var res = out[0];
+    if (reset) {
+      state.guides = res.list || [];
+      state.pinned = (out[1] || []).slice(0, 3);
+    } else {
+      var seen = {};
+      state.guides.forEach(function (g) { seen[g.id] = 1; });
+      (res.list || []).forEach(function (g) { if (!seen[g.id]) state.guides.push(g); });
+    }
+    state.total = res.total == null ? state.guides.length : res.total;
+    state.hasMore = !!res.hasMore;
+    renderHomeLists();
+  } catch (e) {
+    console.error(e);
+    if (token !== routeSeq) return;
+    if (reset) toast('云端暂时连不上，先显示本地内容');
+  } finally {
+    if (token === routeSeq) state.loading = false;
+  }
+}
+
+/* 首页的事件绑定（搜索、分类、连点入口） */
+function bindHomeEvents() {
+  var q = document.getElementById('q');
+  var qc = document.getElementById('q-clear');
+
+  if (q) {
+    // 搜索：输入停 300ms 后去服务端查，避免每敲一个字打一次请求
+    q.addEventListener('input', function () {
+      state.keyword = q.value.trim();
+      if (qc) qc.style.display = state.keyword ? 'block' : 'none';
+      clearTimeout(searchTimer);
+      searchTimer = setTimeout(function () {
+        if (bootMode() === 'offline') { loadHome(true); return; }
+        loadHome(true);
+      }, 300);
+    });
+    q.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') { clearTimeout(searchTimer); loadHome(true); }
+    });
+  }
+  if (qc) {
+    qc.addEventListener('click', function () {
+      if (q) { q.value = ''; q.focus(); }
+      state.keyword = '';
+      qc.style.display = 'none';
+      clearTimeout(searchTimer);
+      loadHome(true);
+    });
+  }
+
+  // 隐藏的站方入口：底部说明连点 5 下进登录页。
+  var plain = document.getElementById('entry-plain');
+  if (plain) {
+    var taps = 0, tapTimer = null;
+    plain.addEventListener('click', function () {
+      taps++;
+      clearTimeout(tapTimer);
+      tapTimer = setTimeout(function () { taps = 0; }, 1500);
+      if (taps >= 5) { taps = 0; go('/login'); }
+    });
+  }
+}
+
+/* 列表卡片 */
+function itemHTML(g) {
+  var thumbSrc = g.coverThumb || g.cover || '';
+  var thumb = thumbSrc
+    ? '<div class="thumb"><img src="' + escAttr(thumbSrc) + '" alt="" loading="lazy" decoding="async" /></div>'
+    : '<div class="thumb">' + esc(titleShort(g.title)) + '</div>';
+  return '<div class="item" data-act="open" data-id="' + escAttr(g.id) + '">' +
+    '<div class="item-body">' +
+      '<div class="item-t">' + esc(g.title) + '</div>' +
+      '<div class="item-d">' + esc(g.summary || autoSummary(g.content, 70)) + '</div>' +
+      '<div class="item-m">' +
+        '<span class="tag">' + esc(g.category) + '</span>' +
+        (g.isTop ? '<span class="tag gold">置顶</span>' : '') +
+        '<span>' + esc(g.authorName || '攻略组') + '</span>' +
+        '<span>' + fmtDate(g.createTime) + '</span>' +
+      '</div>' +
+    '</div>' + thumb +
+  '</div>';
+}
+
+function renderHomeLists() {
+  // —— 置顶区（只在「全部 + 无搜索词」时显示）——
+  var pinWrap = document.getElementById('pin-wrap');
+  var showPins = (state.cat === '全部' && !state.keyword);
+  var pins = showPins ? (state.pinned || []).slice(0, 3) : [];
+  var html = '';
+
+  if (pins.length) {
+    var hero = pins[0];
+    var heroBg = hero.cover || hero.coverThumb || '';
+    html += '<div class="pin-hero" data-act="open" data-id="' + escAttr(hero.id) + '">' +
+      (heroBg ? '<img class="pin-hero-bg" src="' + escAttr(heroBg) + '" alt="" />' : '') +
+      '<div class="pin-hero-mask"></div>' +
+      '<div class="pin-hero-body">' +
+        '<span class="pin-hero-tag">置顶 1</span>' +
+        '<div class="pin-hero-t">' + esc(hero.title) + '</div>' +
+        '<div class="pin-hero-d">' + esc(hero.summary || autoSummary(hero.content, 70)) + '</div>' +
+        '<div class="pin-hero-m">' + esc(hero.authorName || '攻略组') + ' · ' + fmtDate(hero.createTime) + ' · ' + esc(hero.category) + '</div>' +
+      '</div>' +
+    '</div>';
+
+    for (var i = 1; i < pins.length; i++) {
+      var p = pins[i];
+      html += '<div class="pin-row" data-act="open" data-id="' + escAttr(p.id) + '">' +
+        '<div class="pin-no">' + (i + 1) + '</div>' +
+        '<div class="pin-row-main">' +
+          '<div class="pin-row-t">' + esc(p.title) + '</div>' +
+          '<div class="pin-row-m"><span class="tag gold">置顶</span><span>' + esc(p.category) + '</span><span>' + fmtDate(p.createTime) + '</span></div>' +
+        '</div>' +
+        '<div class="pin-arrow">›</div>' +
+      '</div>';
+    }
+  }
+  if (pinWrap) pinWrap.innerHTML = html;
+
+  // —— 列表 ——
+  var listWrap = document.getElementById('list-wrap');
+  if (!listWrap) return;
+
+  var secTitle = document.getElementById('sec-title');
+  if (secTitle) {
+    var label = state.keyword ? ('搜索「' + state.keyword + '」') : (state.cat === '全部' ? '最新攻略' : state.cat);
+    secTitle.innerHTML = esc(label) +
+      (state.total ? '<span class="sec-n">' + state.total + ' 篇</span>' : '');
+  }
+
+  if (!state.guides.length) {
+    listWrap.innerHTML = '<div class="empty">' +
+      (state.keyword || state.cat !== '全部' ? '没有找到相关攻略' : '暂无攻略，稍后再来看看') +
+    '</div>';
+    return;
+  }
+
+  var out = state.guides.map(itemHTML).join('');
+
+  if (state.hasMore) {
+    out += '<div class="loadmore" data-act="load-more">' +
+      (state.loading ? '加载中…' : '加载更多（还有 ' + Math.max(0, state.total - state.guides.length) + ' 篇）') +
+    '</div>';
+  } else if (state.guides.length >= PAGE_SIZE) {
+    out += '<div class="loadmore">— 已经到底了 —</div>';
+  }
+
+  listWrap.innerHTML = out;
+}
+
+/* ---------------------------------------------------------------
+   8. 视图：详情页
+   --------------------------------------------------------------- */
+/* 从本地（内置 + 本机草稿）里找一篇，用于详情页首屏秒开 */
+function findLocalGuide(id) {
+  var all = buildSampleGuides().concat(localGuides());
+  for (var i = 0; i < all.length; i++) {
+    if (all[i].id === id) return all[i];
+  }
+  return null;
+}
+
+async function viewDetail(id, seq) {
+  // 本地有这篇就先画出来，不等云端
+  var cached = findLocalGuide(id);
+  if (cached) paintDetail(cached);
+  else app.innerHTML =
+    '<div class="backbar" data-act="back"><span class="arw">‹</span> 返回</div>' +
+    '<div class="skeleton" style="height:190px"></div>' +
+    '<div class="skeleton" style="margin-top:16px"></div>';
+
+  var g;
+  try {
+    g = await Store.detail(id);
+  } catch (e) {
+    g = null;
+  }
+  if (seq !== routeSeq) return;
+
+  if (!g) {
+    // 云端没取到但本地有，就用本地的，不报错
+    if (cached) return;
+    app.innerHTML = '<div class="backbar" data-act="back"><span class="arw">‹</span> 返回</div>' +
+      '<div class="empty">这篇文章不存在或已被移除</div>';
+    return;
+  }
+
+  paintDetail(g);
+}
+
+/* 真正把详情页画出来 */
+function paintDetail(g) {
+  var faved = isFaved(g.id);
+  var coverSrc = g.cover || g.coverThumb || '';
+  var coverHTML = coverSrc
+    ? '<div class="d-cover"><img data-act="zoom" src="' + escAttr(coverSrc) + '" alt="" decoding="async" /></div>'
+    : '<div class="d-cover"><div class="d-cover-ph">' +
+        '<div class="d-big">' + esc(catShort(g.category)) + '</div>' +
+        '<div class="d-small">' + esc(g.category) + ' · 攻略</div>' +
+      '</div></div>';
+
+  app.innerHTML =
+    '<div class="backbar" data-act="back"><span class="arw">‹</span> 返回</div>' +
+    '<div class="d-wrap">' +
+      coverHTML +
+      '<h1 class="d-title">' + esc(g.title) + '</h1>' +
+      '<div class="d-meta">' +
+        '<span class="who">' + esc(g.authorName || '攻略组') + '</span>' +
+        '<span>·</span>' +
+        '<span>' + fmtDateFull(g.createTime) + '</span>' +
+        '<span>·</span>' +
+        '<span class="tag">' + esc(g.category) + '</span>' +
+      '</div>' +
+      '<div class="d-body">' + renderContent(g.content) + '</div>' +
+      (function () {
+        var a = getAuth();
+        // 只有主管理员看得到编辑/删除入口；编辑和访客都没有
+        if (!a || a.role !== 'owner') return '';
+        return '<div class="owner-tools">' +
+          '<button class="btn" data-act="edit-guide" data-id="' + escAttr(g.id) + '">编辑这篇文章</button>' +
+          '<button class="btn btn-del" data-act="delete-guide" data-id="' + escAttr(g.id) + '">删除这篇文章</button>' +
+        '</div>';
+      })() +
+      '<div class="d-end">— 攻略内容由运营者整理，仅供参考 —</div>' +
+    '</div>' +
+    '<div class="d-actbar">' +
+      '<button class="btn" id="fav-btn" data-act="fav" data-id="' + escAttr(g.id) + '">' +
+        (faved ? '★ 已收藏' : '☆ 收藏这篇') +
+      '</button>' +
+      '<button class="btn btn-primary" data-act="copy">复制链接</button>' +
+    '</div>';
+
+  // 缓存当前文章，供收藏按钮换文案
+  state.currentGuide = g;
+}
+
+/* ---------------------------------------------------------------
+   9. 视图：发布页
+   --------------------------------------------------------------- */
+async function viewPublish(seq, editId) {
+  var a = getAuth();
+  if (!a) { go('/login'); return; }
+  var editing = !!editId;
+
+  // 编辑模式：先把原文拉回来（Store.detail 直接返回文章对象或 null）
+  var old = null;
+  if (editing) {
+    try {
+      old = await Store.detail(editId);
+    } catch (e) { old = null; }
+    if (seq !== routeSeq) return;
+    if (!old && bootMode() !== 'supabase') old = findLocalGuide(editId);
+    if (!old) {
+      app.innerHTML = '<div class="backbar" data-act="back"><span class="arw">‹</span> 返回</div>' +
+        '<div class="empty">文章不存在，可能已被删除</div>';
+      return;
+    }
+  }
+
+  app.innerHTML =
+    '<div class="backbar" data-act="back"><span class="arw">‹</span> 返回</div>' +
+    '<div class="form-hd">' +
+      '<div class="form-hd-id">' +
+        '<div class="avatar">' + esc(String(a.name || '道').slice(0, 1)) + '</div>' +
+        '<div><div class="form-hd-n">' + esc(a.name) + '</div>' +
+        '<div class="form-hd-r">' + roleName(a.role) + ' · ' + (editing ? '正在编辑' : '正在发布') + '</div></div>' +
+      '</div>' +
+      '<span class="tag">' + (bootMode() === 'supabase' ? '云端同步' : (bootMode() === 'api' ? '已连接后端' : '离线模式')) + '</span>' +
+    '</div>' +
+
+    '<div class="sec-h">' + (editing ? '编辑文章' : '写一篇攻略') + '</div>' +
+
+    '<div class="field">' +
+      '<div class="label"><span>标题</span><span class="cnt"><span id="t-cnt">0</span> / 60</span></div>' +
+      '<input class="input" id="f-title" maxlength="60" placeholder="例如：太虚争锋三路排兵：20 个战力怎么分" />' +
+    '</div>' +
+
+    '<div class="field">' +
+      '<div class="label"><span>分类</span></div>' +
+      '<select class="select" id="f-cat">' +
+        CATEGORIES.map(function (c) { return '<option value="' + escAttr(c) + '">' + esc(c) + '</option>'; }).join('') +
+      '</select>' +
+    '</div>' +
+
+    '<div class="field">' +
+      '<div class="label"><span>署名</span></div>' +
+      '<input class="input" id="f-author" maxlength="12" value="青山" placeholder="青山" />' +
+    '</div>' +
+
+    '<div class="field">' +
+      '<div class="label"><span>摘要</span><span class="cnt">可留空</span></div>' +
+      '<input class="input" id="f-summary" maxlength="80" placeholder="留空自动截取正文前 60 字" />' +
+    '</div>' +
+
+    '<div class="field">' +
+      '<div class="label"><span>封面图</span><span class="cnt">可选</span></div>' +
+      '<div class="row">' +
+        '<input class="input" id="f-cover" placeholder="粘贴图片地址，或点右侧上传" />' +
+        '<button class="btn" id="btn-cover" data-act="upload-cover">上传</button>' +
+      '</div>' +
+      '<input type="hidden" id="f-cover-thumb" />' +
+      '<div class="hint">不填就用墨绿色块 + 标题首字。封面会自动生成两张（WebP）：详情用 720px 宽、列表用 240px 缩略图。正文插图会传两张 —— 小图先显示，点开才加载高清图，不点开不耗流量。</div>' +
+      '<div id="cover-preview" style="margin-top:10px"></div>' +
+    '</div>' +
+
+    '<div class="field">' +
+      '<div class="label"><span>正文</span><span class="cnt"><span id="c-cnt">0</span> 字</span></div>' +
+      '<textarea class="textarea" id="f-content" placeholder="正文一行一段。&#10;&#10;## 小标题&#10;- 列表项&#10;> 重点提示"></textarea>' +
+      '<div class="hint">' +
+        '<code>## 小标题</code> <code>- 列表</code> <code>&gt; 提示块</code> <code>![图注](地址)</code> &nbsp;各占一行，空行分段。' +
+      '</div>' +
+      '<div style="margin-top:9px">' +
+        '<button class="btn" id="btn-insimg" data-act="insert-image">＋ 插入图片</button>' +
+      '</div>' +
+    '</div>' +
+
+    '<div class="switch-row">' +
+      '<div><div class="switch-t">置顶这篇</div><div class="switch-d">首页置顶区最多显示 3 条</div></div>' +
+      '<label class="switch"><input type="checkbox" id="f-top" /><span></span></label>' +
+    '</div>' +
+
+    '<button class="btn btn-primary btn-block" id="btn-submit" data-act="submit-post" style="padding:13px 0;border-radius:10px;font-size:15px">' +
+      (editing ? '保存修改' : '发布') +
+    '</button>' +
+    '<div class="draft-bar"' + (editing ? ' style="display:none"' : '') + '>' +
+      '<span id="draft-hint">草稿会自动保存在这台设备上</span>' +
+      '<span class="draft-clear" data-act="clear-draft">清空草稿</span>' +
+    '</div>' +
+    '<div class="hint" style="margin-top:10px">' +
+      (editing
+        ? '保存后立即生效，文章链接和阅读数都不会变。'
+        : (bootMode() === 'offline'
+            ? '发布后文章先存在本机。要让所有人看到：回首页点底部「<b>导出站点</b>」下载新的 index.html，再拖到托管平台覆盖。'
+            : '发布后会立刻出现在所有访客的页面上。')) +
+    '</div>' +
+    '<div style="height:40px"></div>';
+
+  // 编辑模式：把原文填进表单（不参与草稿）
+  if (editing && old) {
+    var setV = function (id, v) { var el = document.getElementById(id); if (el) el.value = v == null ? '' : v; };
+    setV('f-title', old.title);
+    setV('f-cat', old.category);
+    setV('f-author', old.author_name || old.authorName || a.name);
+    setV('f-summary', old.summary);
+    setV('f-cover', old.cover);
+    setV('f-cover-thumb', old.cover_thumb);
+    setV('f-content', old.content);
+    var topEl = document.getElementById('f-top');
+    if (topEl) topEl.checked = !!(old.is_top != null ? old.is_top : old.isTop);
+    document.getElementById('t-cnt').textContent = String(old.title || '').length;
+    document.getElementById('c-cnt').textContent = String(old.content || '').replace(/\s/g, '').length;
+    if (old.cover) {
+      document.getElementById('cover-preview').innerHTML =
+        '<img src="' + escAttr(old.cover) + '" alt="" style="width:100%;height:120px;object-fit:cover;border-radius:10px;border:1px solid var(--line)" />';
+    }
+    state.editingId = editId;
+  } else {
+    state.editingId = null;
+  }
+
+  // 字数统计
+  var t = document.getElementById('f-title');
+  var c = document.getElementById('f-content');
+  t.addEventListener('input', function () {
+    document.getElementById('t-cnt').textContent = t.value.length;
+  });
+  c.addEventListener('input', function () {
+    document.getElementById('c-cnt').textContent = c.value.replace(/\s/g, '').length;
+  });
+  // 封面地址手动改也实时预览；手改时清掉缩略图，让列表回退用这张图
+  document.getElementById('f-cover').addEventListener('input', function () {
+    var v = this.value.trim();
+    var th = document.getElementById('f-cover-thumb');
+    if (th) th.value = '';
+    document.getElementById('cover-preview').innerHTML = v
+      ? '<img src="' + escAttr(v) + '" alt="" style="width:100%;height:120px;object-fit:cover;border-radius:10px;border:1px solid var(--line)" />'
+      : '';
+  });
+
+  // —— 草稿：编辑模式下不启用（避免把原文盖掉）——
+  if (!editing) {
+    restoreDraft();
+    bindDraftAutosave();
+  }
+}
+
+/* ---------------------------------------------------------------
+   9.5 草稿（存在本机 localStorage，不需要后端）
+   --------------------------------------------------------------- */
+function draftFromForm() {
+  var g = function (id) { var el = document.getElementById(id); return el ? (el.value || '') : ''; };
+  var top = document.getElementById('f-top');
+  return {
+    title: g('f-title').trim(),
+    category: g('f-cat') || CATEGORIES[0],
+    authorName: g('f-author').trim(),
+    summary: g('f-summary').trim(),
+    cover: g('f-cover').trim(),
+    coverThumb: g('f-cover-thumb').trim(),
+    content: document.getElementById('f-content') ? document.getElementById('f-content').value || '' : '',
+    isTop: !!(top && top.checked),
+    savedAt: Date.now()
+  };
+}
+
+function readDraft() {
+  var d = readJSON(LS.draft, null);
+  if (!d) return null;
+  // 标题和正文都空的话，等同于没有草稿
+  if (!(d.title || '').trim() && !(d.content || '').trim()) return null;
+  return d;
+}
+
+function writeDraft(d) { writeJSON(LS.draft, d); }
+function clearDraft() {
+  try { localStorage.removeItem(LS.draft); } catch (e) {}
+}
+
+function fmtClock(ms) {
+  var d = new Date(Number(ms) || Date.now());
+  var p = function (n) { return n < 10 ? '0' + n : '' + n; };
+  return p(d.getHours()) + ':' + p(d.getMinutes());
+}
+
+function updateDraftHint(savedAt) {
+  var el = document.getElementById('draft-hint');
+  if (!el) return;
+  el.textContent = savedAt
+    ? ('草稿已自动保存 · ' + fmtClock(savedAt))
+    : '草稿会自动保存在这台设备上';
+}
+
+/* 把草稿填回表单 */
+function restoreDraft() {
+  var d = readDraft();
+  if (!d) { updateDraftHint(0); return; }
+
+  var set = function (id, v) { var el = document.getElementById(id); if (el && v != null) el.value = v; };
+  set('f-title', d.title || '');
+  set('f-cat', d.category || CATEGORIES[0]);
+  set('f-author', d.authorName || '青山');
+  set('f-summary', d.summary || '');
+  set('f-cover', d.cover || '');
+  set('f-cover-thumb', d.coverThumb || '');
+  set('f-content', d.content || '');
+
+  var top = document.getElementById('f-top');
+  if (top) top.checked = !!d.isTop;
+
+  var tc = document.getElementById('t-cnt');
+  if (tc) tc.textContent = (d.title || '').length;
+  var cc = document.getElementById('c-cnt');
+  if (cc) cc.textContent = (d.content || '').replace(/\s/g, '').length;
+
+  var prev = document.getElementById('cover-preview');
+  if (prev && d.cover) {
+    prev.innerHTML = '<img src="' + escAttr(d.cover) + '" alt="" style="width:100%;height:120px;object-fit:cover;border-radius:10px;border:1px solid var(--line)" />';
+  }
+
+  updateDraftHint(d.savedAt);
+  toast('已恢复 ' + fmtClock(d.savedAt) + ' 的草稿');
+}
+
+/* 输入时自动保存（0.6 秒防抖） */
+function bindDraftAutosave() {
+  var timer = null;
+  var schedule = function () {
+    clearTimeout(timer);
+    timer = setTimeout(function () {
+      var d = draftFromForm();
+      if (!d.title && !d.content) { clearDraft(); updateDraftHint(0); return; }
+      writeDraft(d);
+      updateDraftHint(d.savedAt);
+    }, 600);
+  };
+
+  ['f-title', 'f-summary', 'f-content', 'f-cover', 'f-author'].forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) el.addEventListener('input', schedule);
+  });
+  var sel = document.getElementById('f-cat');
+  if (sel) sel.addEventListener('change', schedule);
+  var top = document.getElementById('f-top');
+  if (top) top.addEventListener('change', schedule);
+}
+
+/* ---------------------------------------------------------------
+   10. 视图：登录页
+   --------------------------------------------------------------- */
+function viewLogin() {
+  if (isLogged()) { go('/'); return; }
+  app.innerHTML =
+    '<div class="backbar" data-act="back"><span class="arw">‹</span> 返回首页</div>' +
+    '<div class="login-card">' +
+      '<div class="login-seal">造</div>' +
+      '<div class="login-t">成员登录</div>' +
+      '<div class="login-s">输入成员码即可进入后台<br />登录状态会记住，下次免登录</div>' +
+      '<div class="login-form">' +
+        '<input class="input" id="login-code" placeholder="请输入成员码" autocomplete="off" autocapitalize="off" spellcheck="false" />' +
+        '<button class="btn btn-primary btn-block" data-act="login">登录</button>' +
+        (bootMode() === 'offline' ? '<div class="code-box" style="margin-top:16px">离线演示：主管理员码 <b>zaohua</b>，编辑码 <b>yunzhong</b>。填了 SUPABASE 或 CONFIG.API 之后，这里换成真实成员码。</div>' : '') +
+        '<div class="center"><span class="login-back" data-act="back">返回首页</span></div>' +
+      '</div>' +
+    '</div>';
+
+  var input = document.getElementById('login-code');
+  input.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') doLogin();
+  });
+  setTimeout(function () { input.focus(); }, 60);
+}
+
+/* ---------------------------------------------------------------
+   11. 视图：成员管理（仅 owner）
+   --------------------------------------------------------------- */
+async function viewMembers(seq) {
+  var a = getAuth();
+  if (!a) { go('/login'); return; }
+
+  if (a.role !== 'owner') {
+    app.innerHTML =
+      '<div class="backbar" data-act="back"><span class="arw">‹</span> 返回</div>' +
+      '<div class="empty">只有主管理员可以进入成员管理</div>';
+    return;
+  }
+
+  app.innerHTML =
+    '<div class="backbar" data-act="back"><span class="arw">‹</span> 返回</div>' +
+    '<div class="hd" style="padding:10px 0 0"><h1 class="hd-title" style="font-size:24px">成员管理</h1>' +
+      '<p class="hd-desc">成员码即登录凭证，停用后立刻失效。</p></div>' +
+    '<div style="height:18px"></div>' +
+    '<div id="m-list"><div class="skeleton"></div><div class="skeleton"></div></div>' +
+    '<div class="sec-h">添加成员</div>' +
+    '<div class="row" style="margin-bottom:12px">' +
+      '<input class="input" id="m-name" placeholder="成员名字" maxlength="12" />' +
+      '<button class="btn btn-primary" data-act="add-member">添加</button>' +
+    '</div>' +
+    '<div class="hint" style="margin-bottom:40px">添加后会自动生成一个 8 位成员码，把码给对方即可登录（默认为「编辑」角色）。</div>' +
+    '<div id="m-code-new"></div>';
+
+  var res = await Store.members(a.token);
+  if (seq !== routeSeq) return;
+  renderMembers(res && res.ok ? (res.data || []) : null, res && res.msg);
+}
+
+/* ---------------------------------------------------------------
+   11.5 视图：访问统计（仅 owner）
+   --------------------------------------------------------------- */
+async function viewStats(seq) {
+  var a = getAuth();
+  if (!a) { go('/login'); return; }
+
+  app.innerHTML =
+    '<div class="backbar" data-act="back"><span class="arw">‹</span> 返回</div>' +
+    '<div class="hd" style="padding:8px 0 0">' +
+      '<h1 class="hd-title" style="font-size:24px">访问统计</h1>' +
+      '<p class="hd-desc">同一浏览器同一页面，一次会话只记一次。</p>' +
+    '</div>' +
+    '<div id="stat-box"><div class="skeleton" style="height:80px"></div></div>';
+
+  if (a.role !== 'owner') {
+    document.getElementById('stat-box').innerHTML = '<div class="empty">只有主管理员可以查看统计</div>';
+    return;
+  }
+
+  var r = await Store.stats(a.token);
+  if (seq !== routeSeq) return;
+
+  var box = document.getElementById('stat-box');
+  if (!r || !r.ok) {
+    box.innerHTML = '<div class="empty">' + esc((r && r.msg) || '读取失败') + '</div>';
+    return;
+  }
+
+  var d = r.data || {};
+  var top = d.top || [];
+  box.innerHTML =
+    '<div class="stat-grid">' +
+      '<div class="stat-card"><div class="stat-n">' + (d.total || 0) + '</div><div class="stat-l">总访问</div></div>' +
+      '<div class="stat-card"><div class="stat-n">' + (d.today || 0) + '</div><div class="stat-l">今天</div></div>' +
+      '<div class="stat-card"><div class="stat-n">' + (d.week || 0) + '</div><div class="stat-l">近 7 天</div></div>' +
+    '</div>' +
+    '<div class="sec-h">看得最多的文章</div>' +
+    (top.length
+      ? top.map(function (t, i) {
+          return '<div class="top-row">' +
+            '<div class="top-i">' + (i + 1) + '</div>' +
+            '<div class="top-t">' + esc(t.title || '（已删除）') + '</div>' +
+            '<div class="top-c">' + (t.hits || 0) + ' 次</div>' +
+          '</div>';
+        }).join('')
+      : '<div class="empty">还没有数据</div>') +
+    '<div style="height:40px"></div>';
+}
+
+function renderMembers(list, err) {
+  var box = document.getElementById('m-list');
+  if (!box) return;
+  if (!list) {
+    box.innerHTML = '<div class="empty">' + esc(err || '加载失败') + '</div>';
+    return;
+  }
+  var a = getAuth();
+  box.innerHTML = list.map(function (m) {
+    // 「自己」判断：后端若在 login 里返回 id 就用 id，否则退回按名字比对
+    var self = (a && a.id && m.id === a.id) || (!(a && a.id) && a && m.name === a.name);
+    return '<div class="m-card ' + (m.enabled ? '' : 'off') + '">' +
+      '<div class="m-ava">' + esc(String(m.name || '道').slice(0, 1)) + '</div>' +
+      '<div class="m-main">' +
+        '<div class="m-top">' +
+          '<span class="m-name">' + esc(m.name) + '</span>' +
+          '<span class="badge ' + (m.role === 'owner' ? 'owner' : 'editor') + '">' + roleName(m.role) + '</span>' +
+          (self ? '<span class="badge self">我</span>' : '') +
+          (m.enabled ? '' : '<span class="badge self">已停用</span>') +
+        '</div>' +
+        '<div class="m-code">成员码 ' + esc(m.code) + '</div>' +
+      '</div>' +
+      '<div class="m-act">' +
+        (self
+          ? '<span class="m-code">不可停用自己</span>'
+          : '<button class="btn" style="padding:6px 13px;font-size:12px" data-act="toggle-member" data-id="' + escAttr(m.id) + '" data-enabled="' + (m.enabled ? '1' : '0') + '">' +
+            (m.enabled ? '停用' : '启用') + '</button>') +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+/* ---------------------------------------------------------------
+   11.6 视图：我的收藏（游客也能用，收藏存在本机）
+   --------------------------------------------------------------- */
+async function viewFavs(seq) {
+  app.innerHTML =
+    '<div class="backbar" data-act="back"><span class="arw">‹</span> 返回</div>' +
+    '<div class="hd" style="padding:8px 0 0">' +
+      '<h1 class="hd-title" style="font-size:24px">我的收藏</h1>' +
+      '<p class="hd-desc">收藏存在这台设备上，换手机或清缓存会丢。</p>' +
+    '</div>' +
+    '<div id="fav-wrap"></div>';
+
+  var wrap = document.getElementById('fav-wrap');
+
+  if (!state.favs.length) {
+    wrap.innerHTML = '<div class="empty">还没有收藏<br />在文章底部点「☆ 收藏这篇」</div>';
+    return;
+  }
+
+  var rows;
+  try {
+    rows = await Store.byIds(state.favs);
+  } catch (e) {
+    console.error(e);
+    rows = null;
+  }
+  if (seq !== routeSeq) return;
+
+  if (!rows) {
+    wrap.innerHTML = '<div class="empty">加载失败，请检查网络</div>';
+    return;
+  }
+
+  // rows 和 state.favs 一一对应，null 表示这篇已经被删了
+  var live = [], dead = [];
+  state.favs.forEach(function (id, i) {
+    if (rows[i]) live.push(rows[i]);
+    else dead.push(id);
+  });
+
+  var html = live.map(function (g) {
+    return '<div class="fav-item">' + itemHTML(g) +
+      '<button class="fav-del" data-act="unfav" data-id="' + escAttr(g.id) + '">✕</button>' +
+    '</div>';
+  }).join('');
+
+  if (dead.length) {
+    html += '<div class="sec-h">已失效 ' + dead.length + ' 篇</div>' +
+      dead.map(function (id) {
+        return '<div class="fav-item">' +
+          '<div class="item" style="opacity:.5">' +
+            '<div class="item-body">' +
+              '<div class="item-t">这篇文章已被删除</div>' +
+              '<div class="item-m"><span>可以移除</span></div>' +
+            '</div>' +
+            '<div class="thumb" style="opacity:.5">—</div>' +
+          '</div>' +
+          '<button class="fav-del" data-act="unfav" data-id="' + escAttr(id) + '">✕</button>' +
+        '</div>';
+      }).join('');
+  }
+
+  wrap.innerHTML =
+    '<div class="sec-h">共 ' + live.length + ' 篇</div>' + html +
+    '<div style="height:40px"></div>';
+}
+
+/* ---------------------------------------------------------------
+   12. 交互动作
+   --------------------------------------------------------------- */
+async function doLogin() {
+  var code = (document.getElementById('login-code') || {}).value || '';
+  code = code.trim();
+  if (!code) { toast('请输入成员码'); return; }
+
+  var r = await Store.login(code);
+  if (!r || !r.ok) { toast((r && r.msg) || '登录失败'); return; }
+
+  setAuth(r.data);
+  toast('欢迎，' + r.data.name);
+  go('/');
+}
+
+/* 图片压缩：canvas
+   maxWidth 是「目标宽度」——不是长边。
+   竖图（比如 1440×2560 的长截图）如果按长边压，宽度会小得可怜，文字就糊了。
+   先尝试 WebP（同画质下比 JPEG 小 15~35%）；
+   老浏览器（Safari < 14）编不了 WebP，会退回 JPEG。 */
+var MAX_IMG_HEIGHT = 4800;   // 防止超长整页截图把体积撑爆
+
+function compressImage(file, maxWidth, quality) {
+  return new Promise(function (resolve, reject) {
+    var url = URL.createObjectURL(file);
+    var img = new Image();
+    img.onload = function () {
+      var w = img.naturalWidth || img.width;
+      var h = img.naturalHeight || img.height;
+
+      var scale = Math.min(1, maxWidth / w);
+      // 超高图再兜一层，避免体积失控
+      if (h * scale > MAX_IMG_HEIGHT) scale = MAX_IMG_HEIGHT / h;
+
+      var cw = Math.max(1, Math.round(w * scale));
+      var ch = Math.max(1, Math.round(h * scale));
+      var cv = document.createElement('canvas');
+      cv.width = cw; cv.height = ch;
+      var ctx = cv.getContext('2d');
+      // 先铺白底：PNG 透明区域转成有损格式时不会变黑
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillRect(0, 0, cw, ch);
+      ctx.drawImage(img, 0, 0, cw, ch);
+
+      var dataUrl = '';
+      try {
+        dataUrl = cv.toDataURL('image/webp', quality);
+        // 不支持 WebP 编码的浏览器会返回 PNG，体积反而更大，这时退回 JPEG
+        if (dataUrl.indexOf('data:image/webp') !== 0) {
+          dataUrl = cv.toDataURL('image/jpeg', quality);
+        }
+      } catch (e) {
+        URL.revokeObjectURL(url);
+        reject(e); return;
+      }
+      URL.revokeObjectURL(url);
+      resolve(dataUrl);
+    };
+    img.onerror = function () {
+      URL.revokeObjectURL(url);
+      reject(new Error('图片读取失败'));
+    };
+    img.src = url;
+  });
+}
+
+/* 从 dataURL 判断图片真实格式（决定上传时的扩展名和 Content-Type） */
+function extOfDataUrl(dataUrl) {
+  var s = String(dataUrl || '');
+  if (s.indexOf('data:image/webp') === 0) return 'webp';
+  if (s.indexOf('data:image/png') === 0) return 'png';
+  return 'jpg';
+}
+
+/* 拿文件选择器 */
+function pickFile() {
+  return new Promise(function (resolve) {
+    var inp = document.createElement('input');
+    inp.type = 'file';
+    inp.accept = 'image/*';
+    inp.style.display = 'none';
+    document.body.appendChild(inp);
+    inp.addEventListener('change', function () {
+      var f = inp.files && inp.files[0];
+      document.body.removeChild(inp);
+      resolve(f || null);
+    });
+    inp.click();
+  });
+}
+
+/* 上传一张图，返回可写进文章的地址
+   maxWidth / quality 可调：
+     正文小图 720，点开的大图 1440，列表缩略图 240 */
+async function uploadOne(file, maxWidth, quality) {
+  var a = getAuth();
+  if (!a) { toast('请先登录'); return null; }
+  var dataUrl;
+  try {
+    dataUrl = await compressImage(file, maxWidth || 720, quality || 0.75);
+  } catch (e) {
+    toast('图片读取失败'); return null;
+  }
+  var ext = extOfDataUrl(dataUrl);
+  var base64 = dataUrl.split(',')[1] || '';
+  var r = await Store.upload(base64, ext, a.token);
+  if (!r || !r.ok) { toast((r && r.msg) || '上传失败'); return null; }
+  return (r.data && r.data.url) || null;
+}
+
+/* 封面：一次传两张 —— 详情用 720 宽，列表用 240 缩略图 */
+async function onUploadCover() {
+  var f = await pickFile();
+  if (!f) return;
+  if (!getAuth()) { toast('请先登录'); return; }
+
+  toast('正在压缩上传封面…');
+  var bigUrl = await uploadOne(f, 720, 0.75);
+  if (!bigUrl) return;
+
+  toast('正在生成缩略图…');
+  var thumbUrl = await uploadOne(f, 240, 0.72);
+  if (!thumbUrl) return;
+
+  var input = document.getElementById('f-cover');
+  var thumbInput = document.getElementById('f-cover-thumb');
+  if (input) input.value = bigUrl;
+  if (thumbInput) thumbInput.value = thumbUrl;
+
+  var prev = document.getElementById('cover-preview');
+  if (prev) {
+    prev.innerHTML =
+      '<img src="' + escAttr(bigUrl) + '" alt="" style="width:100%;height:120px;object-fit:cover;border-radius:10px;border:1px solid var(--line)" />' +
+      '<div class="hint" style="margin-top:6px">同时生成了 240px 缩略图，列表页会用它，加载更快。</div>';
+  }
+  toast('封面已上传');
+}
+
+/* 正文插入图片：传两张（小图先显示、点开加载大图）→ 在光标位置插入一行 */
+async function onInsertImage() {
+  var ta = document.getElementById('f-content');
+  if (!ta) return;
+  var posBefore = ta.selectionStart || 0;
+  var f = await pickFile();
+  if (!f) return;
+
+  toast('正在压缩上传小图…');
+  var small = await uploadOne(f, 720, 0.75);
+  if (!small) return;
+
+  toast('正在上传高清图（点开时才下载）…');
+  var full = await uploadOne(f, 1440, 0.85);
+  if (!full) return;
+
+  // 插入点：光标位置；若光标在行中间，则补换行保证图片独占一行
+  var val = ta.value;
+  var pos = ta.selectionStart || posBefore || val.length;
+  var before = val.slice(0, pos);
+  var after = val.slice(pos);
+  var needPre = before.length > 0 && !/\n$/.test(before);
+  var needPost = after.length > 0 && !/^\n/.test(after);
+  var line = '![](' + small + ' "' + full + '")';
+  var snippet = (needPre ? '\n' : '') + line + (needPost ? '\n' : (after.length ? '' : '\n'));
+
+  ta.value = before + snippet + after;
+  var caret = (before + snippet).length;
+  ta.focus();
+  ta.setSelectionRange(caret, caret);
+
+  document.getElementById('c-cnt').textContent = ta.value.replace(/\s/g, '').length;
+  toast('已插入图片（点开可看高清）');
+}
+
+/* 提交发布 */
+async function onSubmitPost() {
+  var a = getAuth();
+  if (!a) { go('/login'); return; }
+
+  var title = (document.getElementById('f-title').value || '').trim();
+  var category = document.getElementById('f-cat').value;
+  var authorName = (document.getElementById('f-author').value || '').trim() || '青山';
+  var summary = (document.getElementById('f-summary').value || '').trim();
+  var cover = (document.getElementById('f-cover').value || '').trim();
+  var coverThumbEl = document.getElementById('f-cover-thumb');
+  var coverThumb = coverThumbEl ? (coverThumbEl.value || '').trim() : '';
+  var content = document.getElementById('f-content').value || '';
+  var isTop = document.getElementById('f-top').checked;
+
+  if (!title) { toast('请填写标题'); return; }
+  if (title.length > 60) { toast('标题最多 60 字'); return; }
+  if (!content.trim()) { toast('请填写正文'); return; }
+
+  var btn = document.getElementById('btn-submit');
+  var editId = state.editingId || null;
+  btn.disabled = true;
+  btn.textContent = editId ? '保存中…' : '发布中…';
+
+  var payload = {
+    title: title,
+    category: category,
+    summary: summary,
+    content: content,
+    authorName: authorName,
+    cover: cover,
+    coverThumb: coverThumb,
+    isTop: isTop
+  };
+
+  var r = editId
+    ? await Store.update(editId, payload, a.token)
+    : await Store.post(payload, a.token);
+
+  btn.disabled = false;
+  btn.textContent = editId ? '保存修改' : '发布';
+
+  if (!r || !r.ok) { toast((r && r.msg) || (editId ? '保存失败' : '发布失败')); return; }
+
+  // 编辑模式：直接回文章页看效果，不动草稿
+  if (editId) {
+    state.editingId = null;
+    toast('已保存');
+    go('/g/' + encodeURIComponent(editId));
+    return;
+  }
+
+  // 清空表单
+  ['f-title', 'f-summary', 'f-cover', 'f-cover-thumb', 'f-content'].forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  document.getElementById('f-top').checked = false;
+  document.getElementById('cover-preview').innerHTML = '';
+  document.getElementById('t-cnt').textContent = '0';
+  document.getElementById('c-cnt').textContent = '0';
+  clearDraft();          // 发布成功，草稿作废
+  updateDraftHint(0);
+
+  toast(bootMode() === 'offline'
+    ? '已保存到本机，点底部「导出站点」发布给所有人'
+    : '发布成功，已同步到云端');
+  state.keyword = ''; state.cat = '全部';
+  go('/');
+}
+
+/* ---------------------------------------------------------------
+   导出站点文件
+   —— 静态站没有服务器，发布只能存在本机。
+   —— 所以这里把「文件里已有的文章」+「你在本机新发的文章」合并，
+      生成一份新的 index.html 下载下来；把它拖到托管平台覆盖，别人就能看到。
+   --------------------------------------------------------------- */
+
+/* 合并去重：同 id 只保留第一次出现的（文件里的优先） */
+function mergeGuides(base, extra) {
+  var seen = Object.create(null);
+  var out = [];
+  (base || []).concat(extra || []).forEach(function (g) {
+    if (!g || !g.id) return;
+    if (seen[g.id]) return;
+    seen[g.id] = 1;
+    out.push(g);
+  });
+  return out;
+}
+
+/* 把文章数组写回 HTML 源码里的 GUIDES_DATA 区块 */
+function spliceGuides(html, guides) {
+  var START = 'var GUIDES_DATA = [';
+  var END = 'function buildSampleGuides()';
+  var start = html.indexOf(START);
+  var end = html.indexOf(END);
+  if (start < 0) throw new Error('源码里找不到 GUIDES_DATA 区块');
+  if (end < 0 || end <= start) throw new Error('源码里找不到 GUIDES_DATA 的结尾');
+  var block = START + guideArrayBody(guides) + '];\n\n';
+  return html.slice(0, start) + block + html.slice(end);
+}
+
+/* 生成数组内容（不含 'var GUIDES_DATA = [' 和 '];'），保持可读缩进 */
+function guideArrayBody(guides) {
+  var FIELDS = ['id', 'title', 'category', 'summary', 'authorName', 'cover', 'isTop', 'topOrder', 'createTime', 'content'];
+  var rows = guides.map(function (g) {
+    var lines = FIELDS.map(function (k) {
+      var v = g[k];
+      var lit = (typeof v === 'string') ? JSON.stringify(v) : String(v == null ? '' : v);
+      return '    ' + k + ': ' + lit;
+    });
+    return '  {\n' + lines.join(',\n') + '\n  }';
+  });
+  return '\n' + rows.join(',\n') + '\n';
+}
+
+function downloadFile(name, text) {
+  var blob = new Blob([text], { type: 'text/html;charset=utf-8' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = name;
+  a.style.display = 'none';
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(function () {
+    if (a.parentNode) a.parentNode.removeChild(a);
+    URL.revokeObjectURL(url);
+  }, 1000);
+}
+
+async function exportSiteFile() {
+  if (!getAuth()) { toast('请先登录'); return; }
+  toast('正在生成站点文件…');
+
+  var resp;
+  try {
+    // 取当前线上这份 index.html 的源码（离线双击时读不到，会走下面的提示）
+    resp = await fetch(location.pathname || './', { cache: 'no-store' });
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+  } catch (e) {
+    toast('读不到页面源码，请先把站部署到线上再导出');
+    return;
+  }
+
+  var html;
+  try {
+    html = await resp.text();
+  } catch (e) {
+    toast('读取页面源码失败');
+    return;
+  }
+
+  var merged;
+  try {
+    merged = mergeGuides(buildSampleGuides(), localGuides());
+    html = spliceGuides(html, merged);
+  } catch (e) {
+    console.error(e);
+    toast('生成失败：' + e.message);
+    return;
+  }
+
+  downloadFile('index.html', html);
+  toast('已下载 index.html（共 ' + merged.length + ' 篇），拖到托管平台覆盖即可');
+}
+
+/* 删除文章：只有 owner 看得到入口，服务端还会再校验一次角色 */
+async function onDeleteGuide(id) {
+  var a = getAuth();
+  if (!a) { toast('请先登录'); return; }
+  if (!id) return;
+
+  var g = state.currentGuide || {};
+  var name = (g.id === id && g.title) ? '《' + g.title + '》' : '这篇文章';
+
+  // 删除不可恢复，必须让人明确点一次确定
+  var yes = window.confirm('确定删除' + name + '吗？\n\n删除后无法恢复，所有人会立刻看不到。');
+  if (!yes) return;
+
+  var r = await Store.remove(id, a.token);
+  if (!r || !r.ok) { toast((r && r.msg) || '删除失败'); return; }
+
+  toast('已删除');
+  state.currentGuide = null;
+  go('/');
+}
+
+/* 复制链接 */
+function copyLink() {
+  var url = location.href;
+  var done = function () { toast('链接已复制'); };
+  var fail = function () { toast('复制失败，请手动复制地址栏'); };
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(url).then(done).catch(function () {
+      fallbackCopy(url) ? done() : fail();
+    });
+  } else {
+    fallbackCopy(url) ? done() : fail();
+  }
+}
+function fallbackCopy(text) {
+  try {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'fixed';
+    ta.style.top = '-1000px';
+    document.body.appendChild(ta);
+    ta.select();
+    var ok = document.execCommand('copy');
+    document.body.removeChild(ta);
+    return ok;
+  } catch (e) { return false; }
+}
+
+/* ---------------------------------------------------------------
+   13. 事件分发（委托到 #app，避免每次渲染重绑）
+   --------------------------------------------------------------- */
+app.addEventListener('click', function (e) {
+  var el = e.target.closest ? e.target.closest('[data-act]') : null;
+  if (!el) return;
+  var act = el.getAttribute('data-act');
+  var id = el.getAttribute('data-id') || '';
+
+  switch (act) {
+    case 'go':
+      go(el.getAttribute('data-to') || '/');
+      break;
+
+    case 'back':
+      if (history.length > 1 && location.hash) history.back();
+      else go('/');
+      break;
+
+    case 'open':
+      go('/g/' + encodeURIComponent(id));
+      break;
+
+    case 'cat':
+      state.cat = el.getAttribute('data-cat') || '全部';
+      document.getElementById('chips').innerHTML = chipsHTML();
+      loadHome(true);
+      break;
+
+    case 'load-more':
+      if (state.loading) return;
+      el.textContent = '加载中…';
+      loadHome(false);
+      break;
+
+    case 'unfav':
+      (function () {
+        var i = state.favs.indexOf(id);
+        if (i >= 0) { state.favs.splice(i, 1); writeJSON(LS.favs, state.favs); }
+        toast('已取消收藏');
+        route();
+      })();
+      break;
+
+    case 'clear-draft':      (function () {
+        clearDraft();
+        ['f-title', 'f-summary', 'f-cover', 'f-cover-thumb', 'f-content'].forEach(function (id) {
+          var el = document.getElementById(id);
+          if (el) el.value = '';
+        });
+        var prev = document.getElementById('cover-preview');
+        if (prev) prev.innerHTML = '';
+        var tc = document.getElementById('t-cnt'); if (tc) tc.textContent = '0';
+        var cc = document.getElementById('c-cnt'); if (cc) cc.textContent = '0';
+        updateDraftHint(0);
+        toast('草稿已清空');
+      })();
+      break;
+
+    case 'fav':
+      if (!state.currentGuide) return;
+      var on = toggleFav(state.currentGuide.id);
+      el.textContent = on ? '★ 已收藏' : '☆ 收藏这篇';
+      toast(on ? '已收藏' : '已取消收藏');
+      break;
+
+    case 'zoom':
+      // 有高清地址就加载高清（只有点开时才下载），没有就用当前这张
+      openZoom(el.getAttribute('data-full') || el.getAttribute('src'));
+      break;
+
+    case 'copy':
+      copyLink();
+      break;
+
+    case 'logout':
+      clearAuth();
+      toast('已退出登录');
+      route();
+      break;
+
+    case 'login':
+      doLogin();
+      break;
+
+    case 'submit-post':
+      onSubmitPost();
+      break;
+
+    case 'upload-cover':
+      onUploadCover();
+      break;
+
+    case 'insert-image':
+      onInsertImage();
+      break;
+
+    case 'export-site':
+      exportSiteFile();
+      break;
+
+    case 'delete-guide':
+      onDeleteGuide(id);
+      break;
+
+    case 'edit-guide':
+      go('/edit/' + encodeURIComponent(id));
+      break;
+
+    case 'add-member':
+      onAddMember();
+      break;
+
+    case 'toggle-member':
+      onToggleMember(id, el.getAttribute('data-enabled') === '1');
+      break;
+  }
+});
+
+async function onAddMember() {
+  var input = document.getElementById('m-name');
+  var name = (input.value || '').trim();
+  if (!name) { toast('请填写成员名字'); return; }
+  var a = getAuth();
+  var r = await Store.addMember(name, a.token);
+  if (!r || !r.ok) { toast((r && r.msg) || '添加失败'); return; }
+  input.value = '';
+  document.getElementById('m-code-new').innerHTML =
+    '<div class="code-box">已添加「' + esc(r.data.name) + '」，成员码：<b>' + esc(r.data.code) + '</b><br />把这个码发给对方，即可登录。</div>';
+  toast('已添加');
+  var res = await Store.members(a.token);
+  if (res && res.ok) renderMembers(res.data);
+}
+
+async function onToggleMember(id, enabledNow) {
+  var a = getAuth();
+  var r = await Store.setEnabled(id, !enabledNow, a.token);
+  if (!r || !r.ok) { toast((r && r.msg) || '操作失败'); return; }
+  toast(enabledNow ? '已停用' : '已启用');
+  var res = await Store.members(a.token);
+  if (res && res.ok) renderMembers(res.data);
+}
+
+/* ---------------------------------------------------------------
+   14. 路由
+   --------------------------------------------------------------- */
+var routeSeq = 0;
+
+async function route() {
+  var seq = ++routeSeq;
+  var raw = (location.hash || '#/').replace(/^#/, '');
+  var path = raw.split('?')[0] || '/';
+
+  window.scrollTo(0, 0);
+
+  try {
+    if (path.indexOf('/g/') === 0) {
+      await viewDetail(decodeURIComponent(path.slice(3)), seq);
+    } else if (path.indexOf('/edit/') === 0) {
+      await viewPublish(seq, decodeURIComponent(path.slice(6)));
+    } else if (path === '/publish') {
+      await viewPublish(seq);
+    } else if (path === '/login') {
+      viewLogin();
+    } else if (path === '/members') {
+      await viewMembers(seq);
+    } else if (path === '/stats') {
+      await viewStats(seq);
+    } else if (path === '/favs') {
+      await viewFavs(seq);
+    } else {
+      await viewHome(seq);
+    }
+
+    // 上报访问（不 await，失败也不影响页面）
+    if (path.indexOf('/g/') === 0) sendVisit(path, decodeURIComponent(path.slice(3)));
+    else sendVisit(path, '');
+  } catch (err) {
+    console.error(err);
+    if (seq === routeSeq) {
+      app.innerHTML = '<div class="empty">页面出错了，请刷新重试</div>';
+    }
+  }
+}
+
+/* 首屏预连接：脚本一解析就和 Supabase 建连，
+   让 TCP/TLS 握手和页面渲染并行，省掉一次跨国往返 */
+(function preconnectSupabase() {
+  if (bootMode() !== 'supabase') return;
+  try {
+    var base = sbBase();
+    var pc = document.createElement('link');
+    pc.rel = 'preconnect';
+    pc.href = base;
+    pc.crossOrigin = 'anonymous';
+    document.head.appendChild(pc);
+
+    var dns = document.createElement('link');
+    dns.rel = 'dns-prefetch';
+    dns.href = base;
+    document.head.appendChild(dns);
+  } catch (e) { /* 老浏览器忽略 */ }
+})();
+
+window.addEventListener('hashchange', route);
+window.addEventListener('DOMContentLoaded', function () {
+  if (!location.hash) location.hash = '#/';
+  route();
+});
+
+/* 上报访问：同一会话、同一页面只报一次，避免刷新刷数据 */
+function sendVisit(path, articleId) {
+  if (bootMode() === 'offline') return;
+  try {
+    var key = 'zh_visited_' + path;
+    if (sessionStorage.getItem(key)) return;
+    sessionStorage.setItem(key, '1');
+  } catch (e) { /* 隐私模式拿不到 sessionStorage，照样上报 */ }
+  Store.visit(path, articleId || '');
+}
+
+/* 点图全屏查看（用的是同一张图，不额外耗流量） */
+var lightboxEl = null;
+
+function openZoom(src) {
+  if (!src) return;
+  if (!lightboxEl) {
+    lightboxEl = document.createElement('div');
+    lightboxEl.id = 'lightbox';
+    lightboxEl.className = 'lightbox';
+    lightboxEl.innerHTML = '<img alt="" /><div class="lb-hint">点击任意处关闭</div>';
+    lightboxEl.addEventListener('click', closeZoom);
+    document.body.appendChild(lightboxEl);
+  }
+  var img = lightboxEl.querySelector('img');
+  if (img) img.src = src;
+  lightboxEl.classList.add('on');
+  document.body.style.overflow = 'hidden';   // 打开时锁住页面滚动
+}
+
+function closeZoom() {
+  if (!lightboxEl) return;
+  lightboxEl.classList.remove('on');
+  document.body.style.overflow = '';
+}
+
+/* 启动提示：确认当前走的是哪套数据 */
+if (bootMode() === 'offline') {
+  console.log('[造化仙府] 离线模式：未配置后端，使用站内文章数据 + localStorage。');
+} else if (bootMode() === 'supabase') {
+  console.log('[造化仙府] Supabase 模式：' + sbBase());
+} else {
+  console.log('[造化仙府] 自建后端模式：' + CONFIG.API);
+}
+</script>
+</body>
+</html>
