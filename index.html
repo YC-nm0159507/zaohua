@@ -1171,6 +1171,21 @@ function setAuth(a) { writeJSON(LS.auth, a); }
 function clearAuth() { try { localStorage.removeItem(LS.auth); } catch (e) {} }
 function isLogged() { var a = getAuth(); return !!(a && a.token); }
 function isOwner() { var a = getAuth(); return !!(a && a.role === 'owner'); }
+function isEditor() { var a = getAuth(); return !!(a && (a.role === 'owner' || a.role === 'editor')); }
+
+/* 能不能编辑这篇文章：
+   主管理员 → 都能改
+   编辑     → 只能改自己署名的
+   访客     → 不能 */
+function canEditGuide(g) {
+  var a = getAuth();
+  if (!a || !g) return false;
+  if (a.role === 'owner') return true;
+  if (a.role !== 'editor') return false;
+  var mine = String(a.name || '').trim();
+  var author = String(g.authorName || g.author_name || '').trim();
+  return !!mine && mine === author;
+}
 
 function isFaved(id) { return state.favs.indexOf(id) >= 0; }
 function toggleFav(id) {
@@ -1496,12 +1511,14 @@ function paintDetail(g) {
       '</div>' +
       '<div class="d-body">' + renderContent(g.content) + '</div>' +
       (function () {
-        var a = getAuth();
-        // 只有主管理员看得到编辑/删除入口；编辑和访客都没有
-        if (!a || a.role !== 'owner') return '';
+        // 编辑：主管理员能改所有，成员只能改自己发的
+        // 删除：仅主管理员
+        var canEdit = canEditGuide(g);
+        var canDel = isOwner();
+        if (!canEdit && !canDel) return '';
         return '<div class="owner-tools">' +
-          '<button class="btn" data-act="edit-guide" data-id="' + escAttr(g.id) + '">编辑这篇文章</button>' +
-          '<button class="btn btn-del" data-act="delete-guide" data-id="' + escAttr(g.id) + '">删除这篇文章</button>' +
+          (canEdit ? '<button class="btn" data-act="edit-guide" data-id="' + escAttr(g.id) + '">编辑这篇文章</button>' : '') +
+          (canDel ? '<button class="btn btn-del" data-act="delete-guide" data-id="' + escAttr(g.id) + '">删除这篇文章</button>' : '') +
         '</div>';
       })() +
       '<div class="d-end">— 攻略内容由运营者整理，仅供参考 —</div>' +
@@ -1536,6 +1553,11 @@ async function viewPublish(seq, editId) {
     if (!old) {
       app.innerHTML = '<div class="backbar" data-act="back"><span class="arw">‹</span> 返回</div>' +
         '<div class="empty">文章不存在，可能已被删除</div>';
+      return;
+    }
+    if (!canEditGuide(old)) {
+      app.innerHTML = '<div class="backbar" data-act="back"><span class="arw">‹</span> 返回</div>' +
+        '<div class="empty">这篇文章不是你发布的，只有发布者本人或主管理员能编辑</div>';
       return;
     }
   }
