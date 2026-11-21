@@ -1174,17 +1174,13 @@ function isOwner() { var a = getAuth(); return !!(a && a.role === 'owner'); }
 function isEditor() { var a = getAuth(); return !!(a && (a.role === 'owner' || a.role === 'editor')); }
 
 /* 能不能编辑这篇文章：
-   主管理员 → 都能改
-   编辑     → 只能改自己署名的
-   访客     → 不能 */
+   主管理员、成员（编辑）→ 都能改任何文章
+   访客                  → 不能
+   （删除仍然只有主管理员） */
 function canEditGuide(g) {
   var a = getAuth();
   if (!a || !g) return false;
-  if (a.role === 'owner') return true;
-  if (a.role !== 'editor') return false;
-  var mine = String(a.name || '').trim();
-  var author = String(g.authorName || g.author_name || '').trim();
-  return !!mine && mine === author;
+  return a.role === 'owner' || a.role === 'editor';
 }
 
 function isFaved(id) { return state.favs.indexOf(id) >= 0; }
@@ -1511,7 +1507,7 @@ function paintDetail(g) {
       '</div>' +
       '<div class="d-body">' + renderContent(g.content) + '</div>' +
       (function () {
-        // 编辑：主管理员能改所有，成员只能改自己发的
+        // 编辑：主管理员和成员都能改任何文章
         // 删除：仅主管理员
         var canEdit = canEditGuide(g);
         var canDel = isOwner();
@@ -1557,7 +1553,7 @@ async function viewPublish(seq, editId) {
     }
     if (!canEditGuide(old)) {
       app.innerHTML = '<div class="backbar" data-act="back"><span class="arw">‹</span> 返回</div>' +
-        '<div class="empty">这篇文章不是你发布的，只有发布者本人或主管理员能编辑</div>';
+        '<div class="empty">请先登录后再编辑</div>';
       return;
     }
   }
