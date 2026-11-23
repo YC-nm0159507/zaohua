@@ -123,8 +123,14 @@ a{color:inherit;text-decoration:none}
 .btn:disabled{opacity:.5;cursor:not-allowed}
 
 /* ============ 详情页 ============ */
-.backbar{display:flex;align-items:center;gap:5px;padding:18px 0 6px;color:var(--sub);font-size:13.5px;cursor:pointer;width:fit-content}
+.backbar{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:18px 0 6px;color:var(--sub);font-size:13.5px}
+.bb-left{display:flex;align-items:center;gap:5px;cursor:pointer;padding:2px 0}
 .backbar .arw{font-size:17px;line-height:1}
+/* 右侧常驻「首页」：不管返回逻辑怎么判断，永远有一个回家的路 */
+.bb-home{flex:0 0 auto;display:flex;align-items:center;gap:3px;cursor:pointer;
+  font-size:12.5px;color:var(--green);background:var(--card);border:1px solid var(--line);
+  border-radius:14px;padding:4px 11px;letter-spacing:.5px;transition:.16s}
+.bb-home:active{background:#EFEADF}
 .d-wrap{padding-bottom:104px}
 .d-cover{height:190px;border-radius:12px;overflow:hidden;background:linear-gradient(150deg,#3A6E5E,var(--green-deep) 62%,#1D332C);position:relative;margin-top:4px}
 /* 封面固定 190px 高；用 cover 裁切，并把焦点偏上，
@@ -372,10 +378,14 @@ function replaceTo(path) {
   location.replace('#' + path);
 }
 
-/* 统一的返回条：有站内历史显示「返回」，没有就显示「首页」 */
+/* 统一的返回条：左边返回（有站内历史退一步，否则回首页），
+   右边常驻一个「首页」按钮，任何情况下都能一键回家 */
 function backHTML(label) {
   var t = label || (navDepth > 0 ? '返回' : '首页');
-  return '<div class="backbar" data-act="back"><span class="arw">‹</span> ' + t + '</div>';
+  return '<div class="backbar">' +
+    '<span class="bb-left" data-act="back"><span class="arw">‹</span> ' + t + '</span>' +
+    '<span class="bb-home" data-act="home">⌂ 首页</span>' +
+  '</div>';
 }
 
 /* 时间戳 → 2026-11-14 */
@@ -2421,6 +2431,10 @@ app.addEventListener('click', function (e) {
   switch (act) {
     case 'go':
       go(el.getAttribute('data-to') || '/');
+      break;
+
+    case 'home':
+      go('/');
       break;
 
     case 'back':
