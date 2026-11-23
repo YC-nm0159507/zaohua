@@ -1261,7 +1261,39 @@ function entryHTML() {
 var PAGE_SIZE = 20;          // 每页条数
 var searchTimer = null;
 
+/* 给首页拍快照：进文章前调用，返回时原样还原列表与滚动位置 */
+function saveHomeSnapshot() {
+  try {
+    if (!document.getElementById('list-wrap')) return;   // 不在首页就不管
+    state.homeSnap = {
+      cat: state.cat,
+      keyword: state.keyword,
+      count: (state.guides || []).length,
+      scrollY: window.scrollY || window.pageYOffset || 0,
+      html: app.innerHTML,
+      at: Date.now()
+    };
+  } catch (e) { /* 快照失败不影响正常浏览 */ }
+}
+
 async function viewHome(seq) {
+  // —— 从文章页返回：还原上次的列表（分类、搜索词、已加载条数、滚动位置）——
+  // 访客翻到第 5 页点进文章，返回时不该被打回顶部重新翻
+  if (state.homeSnap && state.restoreHome) {
+    var snap = state.homeSnap;
+    state.restoreHome = false;
+    state.cat = snap.cat;
+    state.keyword = snap.keyword;
+    app.innerHTML = snap.html;
+    // 等一帧再滚，避免刚换完 DOM 高度还没算好
+    requestAnimationFrame(function () {
+      window.scrollTo(0, snap.scrollY || 0);
+      // 图片是懒加载的，布局可能微调，再校正一次
+      setTimeout(function () { window.scrollTo(0, snap.scrollY || 0); }, 120);
+    });
+    return;
+  }
+
   app.innerHTML =
     '<div class="hd">' +
       '<div class="hd-kicker">造化仙府</div>' +
@@ -2439,11 +2471,19 @@ app.addEventListener('click', function (e) {
 
     case 'back':
       // 有站内历史就老实退一步；直接点外链进来的就回首页，绝不把访客踢出去
-      if (navDepth > 0) { navDepth--; history.back(); }
-      else go('/');
+      if (navDepth > 0) {
+        navDepth--;
+        // 从文章页返回列表：允许还原列表位置
+        if (location.hash.indexOf('#/g/') === 0 || location.hash.indexOf('/g/') === 0) {
+          state.restoreHome = true;
+        }
+        history.back();
+      } else go('/');
       break;
 
     case 'open':
+      // 进文章前先给列表拍个快照：返回时能原样回到刚才的位置
+      saveHomeSnapshot();
       go('/g/' + encodeURIComponent(id));
       break;
 
