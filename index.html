@@ -355,9 +355,27 @@ function toast(msg) {
   toast._t = setTimeout(function () { toastEl.classList.remove('show'); }, 2200);
 }
 
+/* 站内跳转次数：用来判断「返回」到底该退一步还是回首页。
+   从分享链接直接打开时是 0——浏览器历史里没有站内页面，
+   这时候 history.back() 会把人家踢出网站（回到微信那个"继续访问"页）。 */
+var navDepth = 0;
+
 function go(path) {
-  if (location.hash === '#' + path) route();
-  else location.hash = path;
+  if (location.hash === '#' + path) { route(); return; }
+  navDepth++;
+  location.hash = path;
+}
+
+/* 替换当前这条历史记录（不新增），编辑保存后回文章用 */
+function replaceTo(path) {
+  if (location.hash === '#' + path) { route(); return; }
+  location.replace('#' + path);
+}
+
+/* 统一的返回条：有站内历史显示「返回」，没有就显示「首页」 */
+function backHTML(label) {
+  var t = label || (navDepth > 0 ? '返回' : '首页');
+  return '<div class="backbar" data-act="back"><span class="arw">‹</span> ' + t + '</div>';
 }
 
 /* 时间戳 → 2026-11-14 */
@@ -1459,7 +1477,7 @@ async function viewDetail(id, seq) {
   var cached = findLocalGuide(id);
   if (cached) paintDetail(cached);
   else app.innerHTML =
-    '<div class="backbar" data-act="back"><span class="arw">‹</span> 返回</div>' +
+    backHTML() +
     '<div class="skeleton" style="height:190px"></div>' +
     '<div class="skeleton" style="margin-top:16px"></div>';
 
@@ -1474,7 +1492,7 @@ async function viewDetail(id, seq) {
   if (!g) {
     // 云端没取到但本地有，就用本地的，不报错
     if (cached) return;
-    app.innerHTML = '<div class="backbar" data-act="back"><span class="arw">‹</span> 返回</div>' +
+    app.innerHTML = backHTML() +
       '<div class="empty">这篇文章不存在或已被移除</div>';
     return;
   }
@@ -1494,7 +1512,7 @@ function paintDetail(g) {
       '</div></div>';
 
   app.innerHTML =
-    '<div class="backbar" data-act="back"><span class="arw">‹</span> 返回</div>' +
+    backHTML() +
     '<div class="d-wrap">' +
       coverHTML +
       '<h1 class="d-title">' + esc(g.title) + '</h1>' +
@@ -1547,19 +1565,19 @@ async function viewPublish(seq, editId) {
     if (seq !== routeSeq) return;
     if (!old && bootMode() !== 'supabase') old = findLocalGuide(editId);
     if (!old) {
-      app.innerHTML = '<div class="backbar" data-act="back"><span class="arw">‹</span> 返回</div>' +
+      app.innerHTML = backHTML() +
         '<div class="empty">文章不存在，可能已被删除</div>';
       return;
     }
     if (!canEditGuide(old)) {
-      app.innerHTML = '<div class="backbar" data-act="back"><span class="arw">‹</span> 返回</div>' +
+      app.innerHTML = backHTML() +
         '<div class="empty">请先登录后再编辑</div>';
       return;
     }
   }
 
   app.innerHTML =
-    '<div class="backbar" data-act="back"><span class="arw">‹</span> 返回</div>' +
+    backHTML() +
     '<div class="form-hd">' +
       '<div class="form-hd-id">' +
         '<div class="avatar">' + esc(String(a.name || '道').slice(0, 1)) + '</div>' +
@@ -1791,7 +1809,7 @@ function bindDraftAutosave() {
 function viewLogin() {
   if (isLogged()) { go('/'); return; }
   app.innerHTML =
-    '<div class="backbar" data-act="back"><span class="arw">‹</span> 返回首页</div>' +
+    backHTML('返回首页') +
     '<div class="login-card">' +
       '<div class="login-seal">造</div>' +
       '<div class="login-t">成员登录</div>' +
@@ -1820,13 +1838,13 @@ async function viewMembers(seq) {
 
   if (a.role !== 'owner') {
     app.innerHTML =
-      '<div class="backbar" data-act="back"><span class="arw">‹</span> 返回</div>' +
+      backHTML() +
       '<div class="empty">只有主管理员可以进入成员管理</div>';
     return;
   }
 
   app.innerHTML =
-    '<div class="backbar" data-act="back"><span class="arw">‹</span> 返回</div>' +
+    backHTML() +
     '<div class="hd" style="padding:10px 0 0"><h1 class="hd-title" style="font-size:24px">成员管理</h1>' +
       '<p class="hd-desc">成员码即登录凭证，停用后立刻失效。</p></div>' +
     '<div style="height:18px"></div>' +
@@ -1852,7 +1870,7 @@ async function viewStats(seq) {
   if (!a) { go('/login'); return; }
 
   app.innerHTML =
-    '<div class="backbar" data-act="back"><span class="arw">‹</span> 返回</div>' +
+    backHTML() +
     '<div class="hd" style="padding:8px 0 0">' +
       '<h1 class="hd-title" style="font-size:24px">访问统计</h1>' +
       '<p class="hd-desc">同一浏览器同一页面，一次会话只记一次。</p>' +
@@ -1931,7 +1949,7 @@ function renderMembers(list, err) {
    --------------------------------------------------------------- */
 async function viewFavs(seq) {
   app.innerHTML =
-    '<div class="backbar" data-act="back"><span class="arw">‹</span> 返回</div>' +
+    backHTML() +
     '<div class="hd" style="padding:8px 0 0">' +
       '<h1 class="hd-title" style="font-size:24px">我的收藏</h1>' +
       '<p class="hd-desc">收藏存在这台设备上，换手机或清缓存会丢。</p>' +
@@ -2211,11 +2229,17 @@ async function onSubmitPost() {
 
   if (!r || !r.ok) { toast((r && r.msg) || (editId ? '保存失败' : '发布失败')); return; }
 
-  // 编辑模式：直接回文章页看效果，不动草稿
+  // 编辑模式：回到文章页看效果，不新增历史记录
+  // 有站内历史就后退一步（回到刚才那篇文章），这样再点「返回」就是首页
   if (editId) {
     state.editingId = null;
     toast('已保存');
-    go('/g/' + encodeURIComponent(editId));
+    if (navDepth > 0) {
+      navDepth--;
+      history.back();            // hash 从 #/edit/x 变回 #/g/x，会触发重新渲染
+    } else {
+      replaceTo('/g/' + encodeURIComponent(editId));
+    }
     return;
   }
 
@@ -2400,7 +2424,8 @@ app.addEventListener('click', function (e) {
       break;
 
     case 'back':
-      if (history.length > 1 && location.hash) history.back();
+      // 有站内历史就老实退一步；直接点外链进来的就回首页，绝不把访客踢出去
+      if (navDepth > 0) { navDepth--; history.back(); }
       else go('/');
       break;
 
